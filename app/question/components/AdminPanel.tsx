@@ -14,7 +14,6 @@ import {
   updateWalkaway,
 } from "@/redux/features/controlsSlice";
 import prices from "@/data/prices";
-import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/navigation";
 
 export default function AdminPanel() {

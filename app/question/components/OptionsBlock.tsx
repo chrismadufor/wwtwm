@@ -7,7 +7,6 @@ import Lifeline from "./Lifeline";
 import questions from "@/data/questions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
-  lockUserOption,
   setCorrectAnswer,
 } from "@/redux/features/controlsSlice";
 
