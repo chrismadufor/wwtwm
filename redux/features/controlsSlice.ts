@@ -4,6 +4,7 @@ type ControlsSlice = {
   selectedOption: string | null;
   correctAnswer: string | null;
   showAnswer: boolean;
+  showOptions: boolean;
   progressCount: number;
   currentQuestion: number;
   walkaway: boolean;
@@ -19,6 +20,7 @@ const initialState = {
   selectedOption: null,
   correctAnswer: null,
   showAnswer: false,
+  showOptions: false,
   progressCount: 0,
   currentQuestion: 0,
   walkaway: false,
@@ -52,6 +54,9 @@ export const controls = createSlice({
     revealAnswer: (state) => {
       state.showAnswer = true;
     },
+    revealOptions: (state) => {
+      state.showOptions = true;
+    },
     updateProgress: (state) => {
       state.progressCount++;
     },
@@ -67,6 +72,7 @@ export const controls = createSlice({
       state.correctAnswer = null;
       state.selectedOption = null;
       state.showAnswer = false;
+      state.showOptions = false;
       state.fiftyFiftyActive = false;
       state.currentQuestion++;
     },
@@ -93,6 +99,7 @@ export const {
   lockUserOption,
   setCorrectAnswer,
   revealAnswer,
+  revealOptions,
   updateProgress,
   updatePrize,
   updateGuaranteedPrize,

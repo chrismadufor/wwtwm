@@ -7,6 +7,7 @@ import {
   questionReset,
   reset,
   revealAnswer,
+  revealOptions,
   updateGuaranteedPrize,
   updatePrize,
   updateProgress,
@@ -28,6 +29,9 @@ export default function AdminPanel() {
   const showAnswer = useAppSelector(
     (state) => state.controlsReducer.showAnswer
   );
+  const showOptions = useAppSelector(
+    (state) => state.controlsReducer.showOptions
+  );
   const progress = useAppSelector(
     (state) => state.controlsReducer.progressCount
   );
@@ -43,22 +47,26 @@ export default function AdminPanel() {
   }, [showAnswer]);
 
   const onCheckAnswer = () => {
-    dispatch(revealAnswer());
-    if (!walkaway) {
-      if (answer === selectedOption) {
-        if (progress <= 8)setShouldProceed(true)
-        else setShouldProceed(false);
-        dispatch(updateProgress());
-        dispatch(updatePrize(prices[10 - progress - 1]));
-        dispatch(updateGuaranteedPrize());
-      } else {
-        dispatch(updatePrize(guaranteedPrize));
+    if (!showOptions) {
+      dispatch(revealOptions())
+    } else {
+      dispatch(revealAnswer());
+      if (!walkaway) {
+        if (answer === selectedOption) {
+          if (progress <= 8) setShouldProceed(true);
+          else setShouldProceed(false);
+          dispatch(updateProgress());
+          dispatch(updatePrize(prices[10 - progress - 1]));
+          dispatch(updateGuaranteedPrize());
+        } else {
+          dispatch(updatePrize(guaranteedPrize));
+        }
       }
     }
   };
 
   const onWalkAway = () => {
-    dispatch(updateWalkaway())
+    dispatch(updateWalkaway());
   };
 
   const onNextStep = () => {
@@ -74,10 +82,10 @@ export default function AdminPanel() {
       <button
         onClick={onCheckAnswer}
         className={`px-5 py-2 text-sm cursor-pointer green-bg uppercase font-semibold ${
-          selectedOption === null ? disableElement : ""
+          showOptions && selectedOption === null ? disableElement : ""
         }`}
       >
-        Check Answer
+        {showOptions ? "Display Answer" : "Display Options"}
       </button>
       <button
         onClick={onWalkAway}

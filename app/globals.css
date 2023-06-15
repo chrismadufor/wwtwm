@@ -231,3 +231,33 @@ body {
 .secondLine {
   bottom: 28px;
 }
+
+@keyframes displayOption {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.option-0 {
+  animation-name: displayOption;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+  animation-delay: 0.5s;
+}
+.option-1 {
+  animation-name: displayOption;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+  animation-delay: 1.5s;
+}
+.option-2{
+  animation-name: displayOption;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+  animation-delay: 2.5s;
+}
+.option-3 {
+  animation-name: displayOption;
+  animation-fill-mode: forwards;
+  animation-duration: 0.2s;
+  animation-delay: 3.5s;
+}

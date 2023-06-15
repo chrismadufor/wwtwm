@@ -5,16 +5,18 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { lockUserOption } from "@/redux/features/controlsSlice";
 
 type Props = {
+  idx: number;
   letter: string;
   value: string;
   answer: string;
   nextBest: string;
 };
 
-export default function Option({ letter, value, answer, nextBest }: Props) {
+export default function Option({ idx, letter, value, answer, nextBest }: Props) {
   const dispatch = useAppDispatch()
 
   const selectedOption = useAppSelector(state => state.controlsReducer.selectedOption)
+  const showOptions = useAppSelector(state => state.controlsReducer.showOptions)
   const showAnswer = useAppSelector(state => state.controlsReducer.showAnswer)
   const fiftyFiftyActive = useAppSelector((state) => state.controlsReducer.fiftyFiftyActive)
 
@@ -46,9 +48,11 @@ export default function Option({ letter, value, answer, nextBest }: Props) {
   return (
     <div onClick={selectOption} className="option-wrap">
       <div className={`option bg-white flex items-center ${isClicked && "selected"} ${isAnswer && "answer"}`}>
-        <div className="text-2xl option-inner flex items-center w-full h-full">
+        <div className="text-2xl option-inner w-full h-full flex items-center">
+          <div className={`opacity-0 flex items-center ${showOptions ? `option-${idx}` : ""} `}>
           <span className="mr-2">{letter}.</span>
           <span className="">{getValue(value)}</span>
+          </div>
         </div>
       </div>
     </div>

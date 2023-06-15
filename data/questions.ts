@@ -28,7 +28,7 @@ const questions: Question[] = [
         options: [
             {
                 key: "A",
-                value: "Roma"
+                value: "Rome"
             },
             {
                 key: "B",
@@ -120,123 +120,123 @@ const questions: Question[] = [
         level: '5'
     },
     {
-        question: "What is the capital of Angola?",
+        question: "What is the capital of Egypt?",
         options: [
             {
                 key: "A",
-                value: "Ougadougou"
+                value: "Cairo"
             },
             {
                 key: "B",
-                value: "Pretoria"
+                value: "Nile"
             },
             {
                 key: "C",
-                value: "Luanda"
+                value: "Casablanca"
             },
             {
                 key: "D",
-                value: "Abidjan"
+                value: "Mumbai"
             },
         ],
-        answerKey: 'C',
-        nextBest: 'A',
+        answerKey: 'A',
+        nextBest: 'C',
         level: '1'
     },
     {
-        question: "What is the capital of Angola?",
+        question: "What is the capital of Czech Republic?",
         options: [
             {
                 key: "A",
-                value: "Ougadougou"
+                value: "Budapest"
             },
             {
                 key: "B",
-                value: "Pretoria"
+                value: "Prague"
             },
             {
                 key: "C",
-                value: "Luanda"
+                value: "Amsterdam"
             },
             {
                 key: "D",
-                value: "Abidjan"
+                value: "Berlin"
             },
         ],
-        answerKey: 'C',
-        nextBest: 'A',
+        answerKey: 'B',
+        nextBest: 'C',
         level: '1'
     },
     {
-        question: "What is the capital of Angola?",
+        question: "What is the capital of Austria?",
         options: [
             {
                 key: "A",
-                value: "Ougadougou"
+                value: "Salzburg"
             },
             {
                 key: "B",
-                value: "Pretoria"
+                value: "Moscow"
             },
             {
                 key: "C",
-                value: "Luanda"
+                value: "Vienna"
             },
             {
                 key: "D",
-                value: "Abidjan"
+                value: "Brussels"
             },
         ],
         answerKey: 'C',
-        nextBest: 'A',
+        nextBest: 'D',
         level: '1'
     },
     {
-        question: "What is the capital of Angola?",
+        question: "What is the capital of Trinidad & Tobago?",
         options: [
             {
                 key: "A",
-                value: "Ougadougou"
+                value: "Port of Spain"
             },
             {
                 key: "B",
-                value: "Pretoria"
+                value: "Kingston"
             },
             {
                 key: "C",
-                value: "Luanda"
+                value: "Bridgetown"
             },
             {
                 key: "D",
-                value: "Abidjan"
+                value: "Georgetown"
             },
         ],
-        answerKey: 'C',
-        nextBest: 'A',
+        answerKey: 'A',
+        nextBest: 'D',
         level: '1'
     },
     {
-        question: "What is the capital of Angola?",
+        question: "What is the capital of Mauritius?",
         options: [
             {
                 key: "A",
-                value: "Ougadougou"
+                value: "Victoria"
             },
             {
                 key: "B",
-                value: "Pretoria"
+                value: "Port Louis"
             },
             {
                 key: "C",
-                value: "Luanda"
+                value: "Grand Bale"
             },
             {
                 key: "D",
-                value: "Abidjan"
+                value: "Mauritius Island"
             },
         ],
-        answerKey: 'C',
-        nextBest: 'A',
+        answerKey: 'B',
+        nextBest: 'D',
         level: '1'
     },
 ]

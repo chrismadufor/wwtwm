@@ -36,9 +36,10 @@ export default function OptionsBlock() {
       </div>
       <div className="relative mt-5">
         <div className="shape-wrap max-w-7xl mx-auto grid grid-cols-2 gap-5 w-full">
-          {currentQuestion.options.map((option, key) => (
+          {currentQuestion.options.map((option, index) => (
             <Option
-              key={key}
+              key={index}
+              idx={index}
               letter={option.key}
               value={option.value}
               answer={currentQuestion.answerKey}
