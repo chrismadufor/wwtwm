@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ControlsSlice = {
+  user: string;
   selectedOption: string | null;
   correctAnswer: string | null;
   showAnswer: boolean;
@@ -17,6 +18,7 @@ type ControlsSlice = {
 };
 
 const initialState = {
+  user: 'admin',
   selectedOption: null,
   correctAnswer: null,
   showAnswer: false,
@@ -37,6 +39,9 @@ export const controls = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    setUser: (state, action: PayloadAction<string>) => {
+      state.user = action.payload
+    },
     questionReset: (state) => {
       state.progressCount = 0;
       state.currentQuestion = 0;
@@ -94,6 +99,7 @@ export const controls = createSlice({
 });
 
 export const {
+  setUser,
   reset,
   questionReset,
   lockUserOption,

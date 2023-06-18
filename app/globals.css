@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --options-inner-bg: 0, 0, 185;
@@ -247,17 +247,17 @@ body {
   animation-name: displayOption;
   animation-fill-mode: forwards;
   animation-duration: 0.2s;
-  animation-delay: 1.5s;
+  animation-delay: 2.5s;
 }
 .option-2{
   animation-name: displayOption;
   animation-fill-mode: forwards;
   animation-duration: 0.2s;
-  animation-delay: 2.5s;
+  animation-delay: 4.5s;
 }
 .option-3 {
   animation-name: displayOption;
   animation-fill-mode: forwards;
   animation-duration: 0.2s;
-  animation-delay: 3.5s;
+  animation-delay: 6.5s;
 }

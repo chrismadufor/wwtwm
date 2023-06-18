@@ -47,7 +47,7 @@ export default function AdminPanel() {
 
   const onCheckAnswer = () => {
     if (!showOptions) {
-      dispatch(revealOptions())
+      dispatch(revealOptions());
     } else {
       dispatch(revealAnswer());
       if (!walkaway) {
@@ -72,12 +72,12 @@ export default function AdminPanel() {
     if (shouldProceed) dispatch(moveToNextQuestion());
     else {
       router.push("finish");
-      dispatch(questionReset());
+      // instead of this, create a new prop on controlSlice for game ended and use it instead.
     }
   };
 
   return (
-    <div className="h-20 w-full px-10 flex items-center gap-3">
+    <div className="h-20 w-full px-10 flex justify-between items-center gap-3">
       <button
         onClick={onCheckAnswer}
         className={`px-5 py-2 text-sm cursor-pointer green-bg uppercase font-semibold ${
@@ -86,20 +86,22 @@ export default function AdminPanel() {
       >
         {showOptions ? "Display Answer" : "Display Options"}
       </button>
-      <button
-        onClick={onWalkAway}
-        className="px-5 py-2 text-sm cursor-pointer orange-bg uppercase font-semibold"
-      >
-        Walk Away
-      </button>
-      {(showAnswer || walkaway) && (
-        <button
-          onClick={onNextStep}
-          className="px-5 py-2 text-sm cursor-pointer orange-bg text-white uppercase font-semibold"
+      <div className="flex gap-3">
+        {(!selectedOption && progress > 0) && <button
+          onClick={onWalkAway}
+          className={`px-5 py-2 text-sm cursor-pointer orange-bg uppercase font-semibold ${walkaway && disableElement}`}
         >
-          {shouldProceed ? "Next" : "End"}
-        </button>
-      )}
+          Walk Away
+        </button>}
+        {(showAnswer || walkaway) && (
+          <button
+            onClick={onNextStep}
+            className="px-5 py-2 text-sm cursor-pointer orange-bg text-white uppercase font-semibold"
+          >
+            {shouldProceed ? "Next" : "End"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

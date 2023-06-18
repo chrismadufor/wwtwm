@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserTie, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faUserTie, faHandshake } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   updateAskFriend,
@@ -57,7 +57,7 @@ export default function Lifeline() {
           usedAskFriend && disableElement
         }`}
       >
-        <FontAwesomeIcon icon={faPhone} size="3x" />
+        <FontAwesomeIcon icon={faHandshake} size="3x" />
       </div>
     </div>
   );

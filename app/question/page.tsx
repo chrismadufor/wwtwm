@@ -1,9 +1,13 @@
+"use client"
+
+import { useAppSelector } from "@/redux/hooks";
 import AdBlock from "./components/AdBlock";
 import AdminPanel from "./components/AdminPanel";
 import OptionsBlock from "./components/OptionsBlock";
 import PriceBlock from "./components/PriceBlock";
 
 export default function QuestionsPage() {
+  const user = useAppSelector(state => state.controlsReducer.user)
   return (
     <main className="h-screen max-h-screen flex flex-col blue-bg">
       <div className="h-full flex">
@@ -13,7 +17,7 @@ export default function QuestionsPage() {
         </div>
         <PriceBlock />
       </div>
-      <AdminPanel />
+      {user === "admin" && <AdminPanel />}
     </main>
   );
 }

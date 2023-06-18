@@ -1,10 +1,11 @@
 "use client";
 
-import { reset } from "@/redux/features/controlsSlice";
+import { questionReset, reset } from "@/redux/features/controlsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const router =  useRouter()
@@ -12,8 +13,10 @@ export default function Home() {
   let prize = useAppSelector((state) => state.controlsReducer.prize);
   const resetGame = () => {
     router.push('')
-    dispatch(reset())
   }
+  useEffect(() => {
+    dispatch(questionReset());
+  }, [dispatch])
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
       <p className="text-5xl">You just won <span className="orange font-semibold">₦{prize}</span></p>
