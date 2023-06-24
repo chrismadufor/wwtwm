@@ -22,15 +22,17 @@ export default function Option({ idx, letter, value, answer, nextBest }: Props) 
 
   const [isClicked, setIsClicked] = useState(selectedOption === letter)
   const [isAnswer, setIsAnswer] = useState(false)
+  const [isWrong, setIsWrong] = useState(false)
 
   useEffect(() => {
     if (selectedOption === letter) setIsClicked(true)
     else setIsClicked(false)
     if (showAnswer) {
+      if (isClicked && letter !== answer) setIsWrong(true)
       if (answer === letter) setIsAnswer(true)
     }
     else setIsAnswer(false)
-  }, [selectedOption, letter, showAnswer, answer])
+  }, [selectedOption, letter, showAnswer, answer, isClicked])
 
 
   const selectOption = () => {
@@ -46,12 +48,12 @@ export default function Option({ idx, letter, value, answer, nextBest }: Props) 
   }
 
   return (
-    <div onClick={selectOption} className="option-wrap">
-      <div className={`option bg-white flex items-center ${isClicked && "selected"} ${isAnswer && "answer"}`}>
+    <div onClick={selectOption} className={`option-wrap cursor-pointer ${(fiftyFiftyActive && getValue(value) === '') || !showOptions ? "pointer-events-none" : ""}`}>
+      <div className={`option bg-white flex items-center ${isClicked && "selected"} ${isAnswer && "answer"} ${isWrong && "wrong"}`}>
         <div className="text-2xl option-inner w-full h-full flex items-center">
           <div className={`opacity-0 flex items-center ${showOptions ? `option-${idx}` : ""} `}>
           <span className="mr-2">{letter}.</span>
-          <span className="">{getValue(value)}</span>
+          <span className={``}>{getValue(value)}</span>
           </div>
         </div>
       </div>

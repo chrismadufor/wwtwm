@@ -17,7 +17,7 @@ export default function QuestionsPage() {
         </div>
         <PriceBlock />
       </div>
-      {user === "admin" && <AdminPanel />}
+      {user === "host" && <AdminPanel />}
     </main>
   );
 }

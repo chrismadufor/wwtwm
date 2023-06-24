@@ -12,7 +12,7 @@ import {
 
 export default function Lifeline() {
   const dispatch = useAppDispatch();
-  const disableElement = "opacity-50 pointer-events-none";
+  const disableElement = "opacity-50 pointer-events-none used";
   const usedFiftyFifty = useAppSelector(
     (state) => state.controlsReducer.usedFiftyFifty
   );

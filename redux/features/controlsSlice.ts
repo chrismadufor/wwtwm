@@ -18,7 +18,7 @@ type ControlsSlice = {
 };
 
 const initialState = {
-  user: 'admin',
+  user: 'host',
   selectedOption: null,
   correctAnswer: null,
   showAnswer: false,

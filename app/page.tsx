@@ -25,6 +25,7 @@ export default function Home() {
       </div>
       <div className="fixed top-0 right-0">
         <select name="role" onChange={onChange} id="role" className="h-8 w-20 bg-blue-900 text-white pl-2">
+          <option value="host">Host</option>
           <option value="admin">Admin</option>
           <option value="user">User</option>
         </select>
