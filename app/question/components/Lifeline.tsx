@@ -22,6 +22,12 @@ export default function Lifeline() {
   const usedAskFriend = useAppSelector(
     (state) => state.controlsReducer.usedAskFriend
   );
+  const showOptions = useAppSelector(
+    (state) => state.controlsReducer.showOptions
+  );
+  const selectedOption = useAppSelector(
+    (state) => state.controlsReducer.selectedOption
+  );
 
   const onUseFiftyFifty = () => {
     dispatch(updateFiftyFifty());
@@ -37,7 +43,7 @@ export default function Lifeline() {
     <div className="flex justify-center gap-5 mb-5 w-full">
       <div
         onClick={onUseFiftyFifty}
-        className={`life-line cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
+        className={`life-line ${(!showOptions || selectedOption) && "pointer-events-none"} cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
           usedFiftyFifty && disableElement
         }`}
       >
@@ -45,7 +51,7 @@ export default function Lifeline() {
       </div>
       <div
         onClick={onUseAskHost}
-        className={`life-line cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
+        className={`life-line ${(!showOptions || selectedOption) ? "pointer-events-none" : ""} cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
           usedAskHost && disableElement
         }`}
       >
@@ -53,7 +59,7 @@ export default function Lifeline() {
       </div>
       <div
         onClick={onUseAskFriend}
-        className={`life-line cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
+        className={`life-line ${(!showOptions || selectedOption) && "pointer-events-none"} cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
           usedAskFriend && disableElement
         }`}
       >
