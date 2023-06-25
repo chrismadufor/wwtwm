@@ -86,6 +86,7 @@ export default function AdminPanel() {
       >
         {showOptions ? "Display Answer" : "Display Options"}
       </button>
+      {selectedOption && <p className="font-semibold text-lg">Correct answer: {answer}</p>}
       <div className="flex gap-3">
         {(!selectedOption && progress > 0) && <button
           onClick={onWalkAway}

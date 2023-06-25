@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import prices from "@/data/prices";
 import { useAppSelector } from "@/redux/hooks";
 import { lockUserOption } from "@/redux/features/controlsSlice";
+import Image from "next/image";
 
 export default function PriceBlock() {
   const progress = useAppSelector(
     (state) => state.controlsReducer.progressCount
   );
 
-  const [currentVal, setCurrentVal] = useState(-1)
+  const [currentVal, setCurrentVal] = useState(-1);
 
   const isGuaranteed = (index: number) => {
     if (10 - index === 3 || 10 - index === 6 || index === 0) return true;
@@ -18,14 +19,20 @@ export default function PriceBlock() {
 
   useEffect(() => {
     let temp = progress === 0 ? -1 : 10 - progress;
-    setCurrentVal(temp)
+    setCurrentVal(temp);
   }, [progress]);
 
   return (
     <div className="h-full flex flex-col border-l w-64">
-      <h1 className="text-3xl py-3 text-center border-b font-semibold">
-        Shelta
-      </h1>
+      <div className="relative h-20 w-full bg-gray-50 py-5">
+        <Image
+          priority={true}
+          src={"shelta.svg"}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          alt="chart"
+        />
+      </div>
       <div className="h-full grid grid-cols-1">
         {prices.map((price, index) => (
           <p
