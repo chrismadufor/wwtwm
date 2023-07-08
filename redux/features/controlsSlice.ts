@@ -26,7 +26,7 @@ const initialState = {
   showAnswer: false,
   showOptions: false,
   progressCount: 0,
-  currentQuestion: 0,
+  currentQuestion: 1,
   walkaway: false,
   prize: "0",
   guaranteedPrize: "0",

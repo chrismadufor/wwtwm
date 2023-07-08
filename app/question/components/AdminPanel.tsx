@@ -73,12 +73,17 @@ export default function AdminPanel() {
 
   const onWalkAway = () => {
     dispatch(updateWalkaway());
+    socket.emit("walk_away", true)
   };
 
   const onNextStep = () => {
-    if (shouldProceed) dispatch(moveToNextQuestion());
+    if (shouldProceed) {
+      dispatch(moveToNextQuestion());
+      socket.emit("end_game", false);
+    }
     else {
       router.push("finish");
+      socket.emit("end_game", true);
       // instead of this, create a new prop on controlSlice for game ended and use it instead.
     }
   };

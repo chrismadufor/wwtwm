@@ -20,16 +20,19 @@ import {
   updatePrize,
   updateProgress,
   updateWalkaway,
+  moveToNextQuestion,
 } from "@/redux/features/controlsSlice";
 import { fetchQuestion } from "@/lib/fetchQuestions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserTie, faHandshake } from "@fortawesome/free-solid-svg-icons";
 import prices from "@/data/prices";
+import { useRouter } from "next/navigation";
 
 export default function OptionsBlock() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
   // for fetching the question
   const questionCount = useAppSelector(
     (state: any) => state.controlsReducer.currentQuestion
@@ -74,6 +77,7 @@ export default function OptionsBlock() {
   // );
 
   const [data, setData] = useState<QuestionData>();
+  const [endGame, setEndGame] = useState(false)
 
   const socketInitializer = async () => {
     socket.on("connect", () => {
@@ -95,7 +99,9 @@ export default function OptionsBlock() {
       else dispatch(updateAskFriend());
     });
 
-    socket.on("receive_walk_away", () => {});
+    socket.on("receive_walk_away", () => {
+      dispatch(updateWalkaway());
+    });
 
     socket.on("receive_answer", (data: string) => {
       if (data === "answer") dispatch(revealAnswer());
@@ -110,6 +116,13 @@ export default function OptionsBlock() {
       }
       else dispatch(updatePrize(guaranteedPrize));
     });
+
+    socket.on("receive_end_game", (data: any) => {
+      if(data === true) {
+        router.push("finish")
+      }
+      else dispatch(moveToNextQuestion());
+    })
   };
 
   const onSelect = (value: string) => {
@@ -143,6 +156,12 @@ export default function OptionsBlock() {
     if (user === "host") getData();
   }, []);
 
+  // useEffect for fetching data
+
+  // useEffect(() => {
+  //   if(endGame) router.push("finish");
+  // }, [endGame])
+
   return (
     <div>
       {data && (
@@ -152,7 +171,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("fiftyFifty")}
               className={`life-line ${
-                (!showOptions || selectedOption) && "pointer-events-none"
+                (!showOptions || selectedOption || user !== 'host') && "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedFiftyFifty && disableElement
               }`}
@@ -162,7 +181,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askHost")}
               className={`life-line ${
-                !showOptions || selectedOption ? "pointer-events-none" : ""
+                !showOptions || selectedOption || user !== 'host' ? "pointer-events-none" : ""
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskHost && disableElement
               }`}
@@ -172,7 +191,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askFriend")}
               className={`life-line ${
-                (!showOptions || selectedOption) && "pointer-events-none"
+                (!showOptions || selectedOption || user !== 'host') && "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskFriend && disableElement
               }`}
