@@ -14,10 +14,17 @@ import {
   updateAskFriend,
   updateFiftyFifty,
   updateAskHost,
+  revealAnswer,
+  revealOptions,
+  updateGuaranteedPrize,
+  updatePrize,
+  updateProgress,
+  updateWalkaway,
 } from "@/redux/features/controlsSlice";
 import { fetchQuestion } from "@/lib/fetchQuestions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserTie, faHandshake } from "@fortawesome/free-solid-svg-icons";
+import prices from "@/data/prices";
 
 export default function OptionsBlock() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
@@ -49,6 +56,18 @@ export default function OptionsBlock() {
   const selectedOption = useAppSelector(
     (state: any) => state.controlsReducer.selectedOption
   );
+  const answer = useAppSelector(
+    (state: any) => state.controlsReducer.correctAnswer
+  );
+  const progress = useAppSelector(
+    (state: any) => state.controlsReducer.progressCount
+  );
+  const guaranteedPrize = useAppSelector(
+    (state: any) => state.controlsReducer.guaranteedPrize
+  );
+  const walkaway = useAppSelector(
+    (state: any) => state.controlsReducer.walkaway
+  );
 
   // const [currentQuestion, setCurrentQuestion] = useState(
   //   questions[questionCount]
@@ -72,9 +91,25 @@ export default function OptionsBlock() {
 
     socket.on("receive_live_line", (data: string) => {
       if (data === "fiftyFifty") dispatch(updateFiftyFifty());
-    else if (data === "askHost") dispatch(updateAskHost());
-    else dispatch(updateAskFriend());
-    })
+      else if (data === "askHost") dispatch(updateAskHost());
+      else dispatch(updateAskFriend());
+    });
+
+    socket.on("receive_walk_away", () => {});
+
+    socket.on("receive_answer", (data: string) => {
+      if (data === "answer") dispatch(revealAnswer());
+      else dispatch(revealOptions());
+    });
+
+    socket.on("receive_level", (data: any) => {
+      if (data === "correct") {
+        dispatch(updateProgress());
+        dispatch(updatePrize(prices[10 - progress - 1]));
+        dispatch(updateGuaranteedPrize());
+      }
+      else dispatch(updatePrize(guaranteedPrize));
+    });
   };
 
   const onSelect = (value: string) => {
@@ -88,7 +123,7 @@ export default function OptionsBlock() {
     if (value === "fiftyFifty") dispatch(updateFiftyFifty());
     else if (value === "askHost") dispatch(updateAskHost());
     else dispatch(updateAskFriend());
-    socket.emit("choose_live_line", value)
+    socket.emit("choose_live_line", value);
   };
 
   const getData = async () => {

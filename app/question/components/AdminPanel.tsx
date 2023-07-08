@@ -15,29 +15,31 @@ import {
 } from "@/redux/features/controlsSlice";
 import prices from "@/data/prices";
 import { useRouter } from "next/navigation";
+import { io, Socket } from "socket.io-client";
 
 export default function AdminPanel() {
+  const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const disableElement = "opacity-50 pointer-events-none";
 
   const selectedOption = useAppSelector(
-    (state) => state.controlsReducer.selectedOption
+    (state: any) => state.controlsReducer.selectedOption
   );
-  const answer = useAppSelector((state) => state.controlsReducer.correctAnswer);
+  const answer = useAppSelector((state: any) => state.controlsReducer.correctAnswer);
   const showAnswer = useAppSelector(
-    (state) => state.controlsReducer.showAnswer
+    (state: any) => state.controlsReducer.showAnswer
   );
   const showOptions = useAppSelector(
-    (state) => state.controlsReducer.showOptions
+    (state: any) => state.controlsReducer.showOptions
   );
   const progress = useAppSelector(
-    (state) => state.controlsReducer.progressCount
+    (state: any) => state.controlsReducer.progressCount
   );
   const guaranteedPrize = useAppSelector(
-    (state) => state.controlsReducer.guaranteedPrize
+    (state: any) => state.controlsReducer.guaranteedPrize
   );
-  const walkaway = useAppSelector((state) => state.controlsReducer.walkaway);
+  const walkaway = useAppSelector((state: any) => state.controlsReducer.walkaway);
 
   const [shouldProceed, setShouldProceed] = useState(false);
 
@@ -48,8 +50,11 @@ export default function AdminPanel() {
   const onCheckAnswer = () => {
     if (!showOptions) {
       dispatch(revealOptions());
+      // socket.emit("show_option", true);
+      socket.emit("show_answer", 'option');
     } else {
       dispatch(revealAnswer());
+      socket.emit("show_answer", 'answer');
       if (!walkaway) {
         if (answer === selectedOption) {
           if (progress <= 8) setShouldProceed(true);
@@ -57,7 +62,9 @@ export default function AdminPanel() {
           dispatch(updateProgress());
           dispatch(updatePrize(prices[10 - progress - 1]));
           dispatch(updateGuaranteedPrize());
+          socket.emit("send_level", "correct");
         } else {
+          socket.emit("send_level", "wrong");
           dispatch(updatePrize(guaranteedPrize));
         }
       }
