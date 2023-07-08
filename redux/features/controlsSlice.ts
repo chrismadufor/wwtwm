@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ControlsSlice = {
   user: string;
+  fetchedQuestion: boolean;
   selectedOption: string | null;
   correctAnswer: string | null;
   showAnswer: boolean;
@@ -19,6 +20,7 @@ type ControlsSlice = {
 
 const initialState = {
   user: 'host',
+  fetchedQuestion: false,
   selectedOption: null,
   correctAnswer: null,
   showAnswer: false,
@@ -34,13 +36,18 @@ const initialState = {
   usedAskFriend: false,
 } as ControlsSlice;
 
-export const controls = createSlice({
+export const controls: any = createSlice({
   name: "controls",
   initialState,
   reducers: {
     reset: () => initialState,
     setUser: (state, action: PayloadAction<string>) => {
       state.user = action.payload
+    },
+    setFetchedQuestion: (state) => {
+      if(state.fetchedQuestion === false) {
+        state.fetchedQuestion = true 
+      }
     },
     questionReset: (state) => {
       state.progressCount = 0;
@@ -74,6 +81,7 @@ export const controls = createSlice({
       if (state.prize === "50,000") state.guaranteedPrize = "50,000";
     },
     moveToNextQuestion: (state) => {
+      state.fetchedQuestion = false;
       state.correctAnswer = null;
       state.selectedOption = null;
       state.showAnswer = false;
@@ -101,6 +109,7 @@ export const controls = createSlice({
 export const {
   setUser,
   reset,
+  setFetchedQuestion,
   questionReset,
   lockUserOption,
   setCorrectAnswer,
