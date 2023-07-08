@@ -14,19 +14,19 @@ export default function Lifeline() {
   const dispatch = useAppDispatch();
   const disableElement = "opacity-50 pointer-events-none used";
   const usedFiftyFifty = useAppSelector(
-    (state) => state.controlsReducer.usedFiftyFifty
+    (state: any) => state.controlsReducer.usedFiftyFifty
   );
   const usedAskHost = useAppSelector(
-    (state) => state.controlsReducer.usedAskHost
+    (state: any) => state.controlsReducer.usedAskHost
   );
   const usedAskFriend = useAppSelector(
-    (state) => state.controlsReducer.usedAskFriend
+    (state: any) => state.controlsReducer.usedAskFriend
   );
   const showOptions = useAppSelector(
-    (state) => state.controlsReducer.showOptions
+    (state: any) => state.controlsReducer.showOptions
   );
   const selectedOption = useAppSelector(
-    (state) => state.controlsReducer.selectedOption
+    (state: any) => state.controlsReducer.selectedOption
   );
 
   const onUseFiftyFifty = () => {
