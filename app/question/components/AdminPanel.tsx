@@ -59,7 +59,7 @@ export default function AdminPanel() {
         if (answer === selectedOption) {
           if (progress <= 8) setShouldProceed(true);
           else setShouldProceed(false);
-          dispatch(updateProgress());
+          dispatch(updateProgress(progress + 1));
           dispatch(updatePrize(prices[10 - progress - 1]));
           dispatch(updateGuaranteedPrize());
           socket.emit("send_level", "correct");

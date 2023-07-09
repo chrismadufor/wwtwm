@@ -59,9 +59,6 @@ export default function OptionsBlock() {
   const selectedOption = useAppSelector(
     (state: any) => state.controlsReducer.selectedOption
   );
-  const answer = useAppSelector(
-    (state: any) => state.controlsReducer.correctAnswer
-  );
   const progress = useAppSelector(
     (state: any) => state.controlsReducer.progressCount
   );
@@ -110,7 +107,8 @@ export default function OptionsBlock() {
 
     socket.on("receive_level", (data: any) => {
       if (data === "correct") {
-        dispatch(updateProgress());
+        console.log("gone")
+        dispatch(updateProgress(progress + 1));
         dispatch(updatePrize(prices[10 - progress - 1]));
         dispatch(updateGuaranteedPrize());
       } else dispatch(updatePrize(guaranteedPrize));
@@ -163,15 +161,6 @@ export default function OptionsBlock() {
     <div>
       {data && (
         <div className="options-block">
-          {user === "host" && (
-            <div className="">
-              {selectedOption && (
-                <p className="font-semibold text-lg">
-                  Correct answer: {answer}
-                </p>
-              )}
-            </div>
-          )}
           {/* <Lifeline /> */}
           <div className="flex justify-center gap-5 mb-5 w-full">
             <div

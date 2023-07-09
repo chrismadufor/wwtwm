@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function PriceBlock() {
   const progress = useAppSelector(
-    (state) => state.controlsReducer.progressCount
+    (state: any) => state.controlsReducer.progressCount
   );
 
   const [currentVal, setCurrentVal] = useState(-1);

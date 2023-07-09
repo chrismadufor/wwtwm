@@ -69,8 +69,8 @@ export const controls: any = createSlice({
     revealOptions: (state) => {
       state.showOptions = true;
     },
-    updateProgress: (state) => {
-      state.progressCount++;
+    updateProgress: (state, action: PayloadAction<number>) => {
+      state.progressCount = action.payload;
     },
     updatePrize: (state, action: PayloadAction<string>) => {
       state.prize = action.payload;
