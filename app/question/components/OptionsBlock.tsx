@@ -139,8 +139,8 @@ export default function OptionsBlock() {
     socket.emit("choose_live_line", value);
   };
 
-  const getData = async () => {
-    let data = await fetchQuestion();
+  const getData = async (value: number) => {
+    let data = await fetchQuestion(value);
     if (data.error) {
       console.log("There is an error");
     }
@@ -152,15 +152,14 @@ export default function OptionsBlock() {
 
   useEffect(() => {
     console.log(user);
-    if (user !== "host") socketInitializer();
-    if (user === "host") getData();
+    if (user !== "admin") socketInitializer();
   }, []);
 
   // useEffect for fetching data
 
-  // useEffect(() => {
-  //   if(endGame) router.push("finish");
-  // }, [endGame])
+  useEffect(() => {
+    if (user === "admin") getData(questionCount);
+  }, [questionCount])
 
   return (
     <div>
@@ -171,7 +170,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("fiftyFifty")}
               className={`life-line ${
-                (!showOptions || selectedOption || user !== 'host') && "pointer-events-none"
+                (!showOptions || selectedOption || user !== 'admin') && "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedFiftyFifty && disableElement
               }`}
@@ -181,7 +180,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askHost")}
               className={`life-line ${
-                !showOptions || selectedOption || user !== 'host' ? "pointer-events-none" : ""
+                !showOptions || selectedOption || user !== 'admin' ? "pointer-events-none" : ""
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskHost && disableElement
               }`}
@@ -191,7 +190,7 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askFriend")}
               className={`life-line ${
-                (!showOptions || selectedOption || user !== 'host') && "pointer-events-none"
+                (!showOptions || selectedOption || user !== 'admin') && "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskFriend && disableElement
               }`}
@@ -251,6 +250,7 @@ export default function OptionsBlock() {
             <div className="line firstLine"></div>
             <div className="line secondLine"></div>
           </div>
+          {user === "host" && selectedOption && <p className="font-semibold text-lg">Correct answer: {answer}</p>}
         </div>
       )}
     </div>

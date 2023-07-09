@@ -50,7 +50,7 @@ export default function Option({ idx, letter, value, answer, nextBest, onSelect 
   }
 
   return (
-    <div onClick={selectOption} className={`option-wrap cursor-pointer ${(user !== "host" || fiftyFiftyActive && getValue(value) === '') || !showOptions ? "pointer-events-none" : ""}`}>
+    <div onClick={selectOption} className={`option-wrap cursor-pointer ${(user !== "admin" || fiftyFiftyActive && getValue(value) === '') || !showOptions ? "pointer-events-none" : ""}`}>
       <div className={`option bg-white flex items-center ${isClicked && "selected"} ${isAnswer && "answer"} ${isWrong && "wrong"}`}>
         <div className="text-2xl option-inner w-full h-full flex items-center">
           <div className={`opacity-0 flex items-center ${showOptions ? `option-${idx}` : ""} `}>

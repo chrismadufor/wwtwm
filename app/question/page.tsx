@@ -7,7 +7,7 @@ import OptionsBlock from "./components/OptionsBlock";
 import PriceBlock from "./components/PriceBlock";
 
 export default function QuestionsPage() {
-  const user = useAppSelector(state => state.controlsReducer.user)
+  const user = useAppSelector((state: any) => state.controlsReducer.user)
   return (
     <main className="h-screen max-h-screen flex flex-col blue-bg">
       <div className="h-full flex">
@@ -17,7 +17,7 @@ export default function QuestionsPage() {
         </div>
         <PriceBlock />
       </div>
-      {user === "host" && <AdminPanel />}
+      {user === "admin" && <AdminPanel />}
     </main>
   );
 }
