@@ -77,7 +77,7 @@ export default function OptionsBlock() {
   // );
 
   const [data, setData] = useState<QuestionData>();
-  const [endGame, setEndGame] = useState(false)
+  const [endGame, setEndGame] = useState(false);
 
   const socketInitializer = async () => {
     socket.on("connect", () => {
@@ -113,16 +113,14 @@ export default function OptionsBlock() {
         dispatch(updateProgress());
         dispatch(updatePrize(prices[10 - progress - 1]));
         dispatch(updateGuaranteedPrize());
-      }
-      else dispatch(updatePrize(guaranteedPrize));
+      } else dispatch(updatePrize(guaranteedPrize));
     });
 
     socket.on("receive_end_game", (data: any) => {
-      if(data === true) {
-        router.push("finish")
-      }
-      else dispatch(moveToNextQuestion());
-    })
+      if (data === true) {
+        router.push("finish");
+      } else dispatch(moveToNextQuestion());
+    });
   };
 
   const onSelect = (value: string) => {
@@ -159,18 +157,28 @@ export default function OptionsBlock() {
 
   useEffect(() => {
     if (user === "admin") getData(questionCount);
-  }, [questionCount])
+  }, [questionCount]);
 
   return (
     <div>
       {data && (
         <div className="options-block">
+          {user === "host" && (
+            <div className="">
+              {selectedOption && (
+                <p className="font-semibold text-lg">
+                  Correct answer: {answer}
+                </p>
+              )}
+            </div>
+          )}
           {/* <Lifeline /> */}
           <div className="flex justify-center gap-5 mb-5 w-full">
             <div
               onClick={() => onClickLifeLine("fiftyFifty")}
               className={`life-line ${
-                (!showOptions || selectedOption || user !== 'admin') && "pointer-events-none"
+                (!showOptions || selectedOption || user !== "admin") &&
+                "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedFiftyFifty && disableElement
               }`}
@@ -180,7 +188,9 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askHost")}
               className={`life-line ${
-                !showOptions || selectedOption || user !== 'admin' ? "pointer-events-none" : ""
+                !showOptions || selectedOption || user !== "admin"
+                  ? "pointer-events-none"
+                  : ""
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskHost && disableElement
               }`}
@@ -190,7 +200,8 @@ export default function OptionsBlock() {
             <div
               onClick={() => onClickLifeLine("askFriend")}
               className={`life-line ${
-                (!showOptions || selectedOption || user !== 'admin') && "pointer-events-none"
+                (!showOptions || selectedOption || user !== "admin") &&
+                "pointer-events-none"
               } cursor-pointer w-28 h-28 rounded-full border-4 flex items-center justify-center light-blue ${
                 usedAskFriend && disableElement
               }`}
@@ -250,7 +261,6 @@ export default function OptionsBlock() {
             <div className="line firstLine"></div>
             <div className="line secondLine"></div>
           </div>
-          {user === "host" && selectedOption && <p className="font-semibold text-lg">Correct answer: {answer}</p>}
         </div>
       )}
     </div>

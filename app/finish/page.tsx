@@ -10,7 +10,7 @@ import { useEffect } from "react";
 export default function Home() {
   const router =  useRouter()
   const dispatch = useAppDispatch();
-  let prize = useAppSelector((state) => state.controlsReducer.prize);
+  let prize = useAppSelector((state: any) => state.controlsReducer.prize);
   const resetGame = () => {
     router.push('')
   }
