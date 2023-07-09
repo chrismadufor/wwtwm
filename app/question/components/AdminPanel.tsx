@@ -61,7 +61,6 @@ export default function AdminPanel() {
   const onCheckAnswer = () => {
     if (!showOptions) {
       dispatch(revealOptions());
-      // socket.emit("show_option", true);
       socket.emit("show_answer", "option");
     } else {
       dispatch(revealAnswer());

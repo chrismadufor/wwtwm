@@ -27,7 +27,7 @@ export default function Home() {
         <select name="role" onChange={onChange} id="role" className="h-8 w-20 bg-blue-900 text-white pl-2">
           <option value="host">Host</option>
           <option value="admin">Admin</option>
-          <option value="user">User</option>
+          <option value="player">Player</option>
         </select>
       </div>
     </main>
