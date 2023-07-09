@@ -71,14 +71,13 @@ export const controls: any = createSlice({
     },
     updateProgress: (state, action: PayloadAction<number>) => {
       state.progressCount = action.payload;
+      console.log("updated")
     },
     updatePrize: (state, action: PayloadAction<string>) => {
       state.prize = action.payload;
     },
-    updateGuaranteedPrize: (state) => {
-      if (state.prize === "2,000") state.guaranteedPrize = "2,000";
-      if (state.prize === "15,000") state.guaranteedPrize = "15,000";
-      if (state.prize === "50,000") state.guaranteedPrize = "50,000";
+    updateGuaranteedPrize: (state, action: PayloadAction<string>) => {
+      state.guaranteedPrize = action.payload
     },
     moveToNextQuestion: (state) => {
       state.fetchedQuestion = false;

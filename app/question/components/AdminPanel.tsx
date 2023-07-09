@@ -26,7 +26,9 @@ export default function AdminPanel() {
   const selectedOption = useAppSelector(
     (state: any) => state.controlsReducer.selectedOption
   );
-  const answer = useAppSelector((state: any) => state.controlsReducer.correctAnswer);
+  const answer = useAppSelector(
+    (state: any) => state.controlsReducer.correctAnswer
+  );
   const showAnswer = useAppSelector(
     (state: any) => state.controlsReducer.showAnswer
   );
@@ -36,10 +38,13 @@ export default function AdminPanel() {
   const progress = useAppSelector(
     (state: any) => state.controlsReducer.progressCount
   );
+  const prize = useAppSelector((state: any) => state.controlsReducer.prize);
   const guaranteedPrize = useAppSelector(
     (state: any) => state.controlsReducer.guaranteedPrize
   );
-  const walkaway = useAppSelector((state: any) => state.controlsReducer.walkaway);
+  const walkaway = useAppSelector(
+    (state: any) => state.controlsReducer.walkaway
+  );
 
   const [shouldProceed, setShouldProceed] = useState(false);
 
@@ -47,24 +52,35 @@ export default function AdminPanel() {
     if (!showAnswer) setShouldProceed(false);
   }, [showAnswer]);
 
+  const guaranteePrize = () => {
+    if (prize === "2,000") return "2,000";
+    if (prize === "15,000") return "15,000";
+    if (prize === "50,000") return "50,000";
+  };
+
   const onCheckAnswer = () => {
     if (!showOptions) {
       dispatch(revealOptions());
       // socket.emit("show_option", true);
-      socket.emit("show_answer", 'option');
+      socket.emit("show_answer", "option");
     } else {
       dispatch(revealAnswer());
-      socket.emit("show_answer", 'answer');
+      socket.emit("show_answer", "answer");
       if (!walkaway) {
         if (answer === selectedOption) {
           if (progress <= 8) setShouldProceed(true);
           else setShouldProceed(false);
           dispatch(updateProgress(progress + 1));
           dispatch(updatePrize(prices[10 - progress - 1]));
-          dispatch(updateGuaranteedPrize());
-          socket.emit("send_level", "correct");
+          dispatch(updateGuaranteedPrize(guaranteePrize()));
+          socket.emit("send_level", {
+            status: "correct",
+            value: progress + 1,
+            prize: prices[10 - progress - 1],
+            guarantee: guaranteePrize()
+          });
         } else {
-          socket.emit("send_level", "wrong");
+          socket.emit("send_level", { status: "wrong" });
           dispatch(updatePrize(guaranteedPrize));
         }
       }
@@ -73,15 +89,14 @@ export default function AdminPanel() {
 
   const onWalkAway = () => {
     dispatch(updateWalkaway());
-    socket.emit("walk_away", true)
+    socket.emit("walk_away", true);
   };
 
   const onNextStep = () => {
     if (shouldProceed) {
       dispatch(moveToNextQuestion());
       socket.emit("end_game", false);
-    }
-    else {
+    } else {
       router.push("finish");
       socket.emit("end_game", true);
       // instead of this, create a new prop on controlSlice for game ended and use it instead.
@@ -98,14 +113,20 @@ export default function AdminPanel() {
       >
         {showOptions ? "Display Answer" : "Display Options"}
       </button>
-      {selectedOption && <p className="font-semibold text-lg">Correct answer: {answer}</p>}
+      {selectedOption && (
+        <p className="font-semibold text-lg">Correct answer: {answer}</p>
+      )}
       <div className="flex gap-3">
-        {(!selectedOption && progress > 0) && <button
-          onClick={onWalkAway}
-          className={`px-5 py-2 text-sm cursor-pointer orange-bg uppercase font-semibold ${walkaway && disableElement}`}
-        >
-          Walk Away
-        </button>}
+        {!selectedOption && progress > 0 && (
+          <button
+            onClick={onWalkAway}
+            className={`px-5 py-2 text-sm cursor-pointer orange-bg uppercase font-semibold ${
+              walkaway && disableElement
+            }`}
+          >
+            Walk Away
+          </button>
+        )}
         {(showAnswer || walkaway) && (
           <button
             onClick={onNextStep}

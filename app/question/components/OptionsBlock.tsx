@@ -106,11 +106,10 @@ export default function OptionsBlock() {
     });
 
     socket.on("receive_level", (data: any) => {
-      if (data === "correct") {
-        console.log("gone")
-        dispatch(updateProgress(progress + 1));
-        dispatch(updatePrize(prices[10 - progress - 1]));
-        dispatch(updateGuaranteedPrize());
+      if (data.status === "correct") {
+        dispatch(updateProgress(data.value));
+        dispatch(updatePrize(data.prize));
+        dispatch(updateGuaranteedPrize(data.guarantee));
       } else dispatch(updatePrize(guaranteedPrize));
     });
 
