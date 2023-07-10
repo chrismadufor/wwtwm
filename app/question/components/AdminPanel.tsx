@@ -58,6 +58,10 @@ export default function AdminPanel() {
     if (prize === "50,000") return "50,000";
   };
 
+  useEffect(() => {
+    console.log("Prize: ", prize)
+  }, [prize])
+
   const onCheckAnswer = () => {
     if (!showOptions) {
       dispatch(revealOptions());
@@ -107,7 +111,7 @@ export default function AdminPanel() {
       <button
         onClick={onCheckAnswer}
         className={`px-5 py-2 text-sm cursor-pointer green-bg uppercase font-semibold ${
-          showOptions && selectedOption === null ? disableElement : ""
+          (showOptions && selectedOption === null) || showAnswer ? disableElement : ""
         }`}
       >
         {showOptions ? "Display Answer" : "Display Options"}
@@ -116,7 +120,7 @@ export default function AdminPanel() {
         <p className="font-semibold text-lg">Correct answer: {answer}</p>
       )}
       <div className="flex gap-3">
-        {!selectedOption && progress > 0 && (
+        {showOptions && !selectedOption && progress > 0 && (
           <button
             onClick={onWalkAway}
             className={`px-5 py-2 text-sm cursor-pointer orange-bg uppercase font-semibold ${
