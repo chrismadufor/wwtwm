@@ -57,7 +57,9 @@ export const controls: any = createSlice({
       state.correctAnswer = null;
       state.selectedOption = null;
       state.showAnswer = false;
+      state.showOptions = false;
       state.walkaway = false;
+      state.user = "host";
     },
     lockUserOption: (state, action: PayloadAction<string>) => {
       state.selectedOption = action.payload;
