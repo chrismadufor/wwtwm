@@ -47,20 +47,23 @@ export default function AdminPanel() {
   );
 
   const [shouldProceed, setShouldProceed] = useState(false);
+  const [guaranteePrize, setGuaranteePrice] = useState("0")
 
   useEffect(() => {
     if (!showAnswer) setShouldProceed(false);
   }, [showAnswer]);
 
-  const guaranteePrize = () => {
-    if (prize === "2,000") return "2,000";
-    if (prize === "15,000") return "15,000";
-    if (prize === "50,000") return "50,000";
+  const getGuaranteePrize = (value: string) => {
+    // console.log("Value: ", guaranteedPrize, value === "2,000")
+    if (value === "1,000") setGuaranteePrice("2,000");
+    else if (value === "15,000") setGuaranteePrice("15,000");
+    else if (value === "50,000") setGuaranteePrice("50,000");
+    else return guaranteePrize
   };
 
-  useEffect(() => {
-    console.log("Prize: ", prize)
-  }, [prize])
+  // useEffect(() => {
+  //   getGuaranteePrize(prize)
+  // }, [prize])
 
   const onCheckAnswer = () => {
     if (!showOptions) {
@@ -75,15 +78,15 @@ export default function AdminPanel() {
           else setShouldProceed(false);
           dispatch(updateProgress(progress + 1));
           dispatch(updatePrize(prices[10 - progress - 1]));
-          dispatch(updateGuaranteedPrize(guaranteePrize()));
+          // dispatch(updateGuaranteedPrize(guaranteePrize));
           socket.emit("send_level", {
             status: "correct",
             value: progress + 1,
             prize: prices[10 - progress - 1],
-            guarantee: guaranteePrize()
+            guarantee: guaranteedPrize
           });
         } else {
-          socket.emit("send_level", { status: "wrong" });
+          socket.emit("send_level", { status: "wrong", guarantee: guaranteedPrize });
           dispatch(updatePrize(guaranteedPrize));
         }
       }
@@ -116,9 +119,10 @@ export default function AdminPanel() {
       >
         {showOptions ? "Display Answer" : "Display Options"}
       </button>
-      {selectedOption && (
+      {/* Admin should not see the correct answer either */}
+      {/* {selectedOption && (
         <p className="font-semibold text-lg">Correct answer: {answer}</p>
-      )}
+      )} */}
       <div className="flex gap-3">
         {showOptions && !selectedOption && progress > 0 && (
           <button
@@ -133,7 +137,9 @@ export default function AdminPanel() {
         {(showAnswer || walkaway) && (
           <button
             onClick={onNextStep}
-            className="px-5 py-2 text-sm cursor-pointer orange-bg text-white uppercase font-semibold"
+            className={`px-5 py-2 text-sm cursor-pointer orange-bg text-white uppercase font-semibold ${
+              !showOptions && disableElement
+            }`}
           >
             {shouldProceed ? "Next" : "End"}
           </button>

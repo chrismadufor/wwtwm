@@ -109,8 +109,8 @@ export default function OptionsBlock() {
       if (data.status === "correct") {
         dispatch(updateProgress(data.value));
         dispatch(updatePrize(data.prize));
-        dispatch(updateGuaranteedPrize(data.guarantee));
-      } else dispatch(updatePrize(guaranteedPrize));
+        // dispatch(updateGuaranteedPrize(data.guarantee));
+      } else dispatch(updatePrize(data.guarantee));
     });
 
     socket.on("receive_end_game", (data: any) => {
