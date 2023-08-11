@@ -25,7 +25,7 @@ export default function PlayStart() {
         <div className="h-full flex flex-col">
           <div className="text-center flex flex-col items-center justify-center h-full">
             <h1 className="text-2xl md:text-3xl mb-10 font-semibold">
-              Hi {getFirstName(user.fullname)} 😃
+              Hi {user ? getFirstName(user.fullname) : ''} 😃
             </h1>
             <h1 className="text-xl md:text-3xl font-semibold">Patience is a virtue!!</h1>
             <p className="mt-2">The game is about to start.</p>
