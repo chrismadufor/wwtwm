@@ -20,8 +20,50 @@
   }
 }
 
+input:focus {
+  outline: none;
+}
+
+th, td {
+  padding-left: 20px;
+  /* padding-bottom: 20px; */
+}
+
+th {
+  text-align: left;
+}
+
+tr {
+  height: 55px;
+  border-bottom: 2px solid rgb(0, 0, 95);
+}
+
+.winner {
+  border: 2px solid white;
+  background-color: rgb(var(--green));
+  color: white;
+  height: 60px;
+  font-size: 40px;
+}
+
 .blue-bg {
   background-color: rgb(0, 0, 95);
+}
+
+.blue-text {
+  color: rgb(0, 0, 95);
+}
+
+.timer-text {
+  font-size: 300px;
+}
+
+.stats-text {
+  font-size: 200px;
+}
+
+.answer-text {
+  font-size: 170px;
 }
 
 .light-blue {
@@ -57,7 +99,7 @@ body {
 }
 
 .shape-wrap {
-  width: 90%;
+  width: 95%;
 }
 
 .option-wrap {
