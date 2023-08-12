@@ -3,7 +3,8 @@ import Question from "./Question";
 import PlayOption from "./PlayOption";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { finishGame } from "@/redux/features/playSlice";
-import { answerQuestion } from "@/lib/playService";
+import { useAnswerQuestionMutation } from "@/redux/services/playService";
+import Spinner from "./Spinner";
 
 export default function PlayComponent() {
   const dispatch = useAppDispatch();
@@ -12,58 +13,43 @@ export default function PlayComponent() {
     (state: any) => state.playReducer.showAnswer
   );
   const role = useAppSelector((state: any) => state.playReducer.role);
+  const user = useAppSelector((state: any) => state.playReducer.user);
+  const question = useAppSelector((state: any) => state.playReducer.question);
   const answerCount = useAppSelector(
     (state: any) => state.playReducer.answerCount
   );
   const userAnswer = answer.split("");
   const [correctAnswer, setCorrectAnswer] = useState([]);
-  const [question, setQuestion] = useState<any>();
-  const [userObj, setUserObj] = useState<any>();
-  // const correctAnswerArray = correctAnswer.split("", answerCount);
-  // const correctAnswerArray = correctAnswer.split("")
-
-  let data: any;
-  let tempQuestion: any;
-  let userData: any;
-  let tempUserObj: any;
-  if (typeof window !== "undefined") {
-    data = sessionStorage.getItem("questionObj");
-  }
-  if (data && correctAnswer.length === 0) {
-    tempQuestion = JSON.parse(data);
-    // console.log("temp>>>>", tempQuestion);
-  }
-  if (typeof window !== "undefined") {
-    userData = sessionStorage.getItem("user");
-  }
-  if (userData && correctAnswer.length === 0) {
-    tempUserObj = JSON.parse(userData);
-    // console.log("data in play comp.", userObj);
-  }
-  useEffect(() => {
-    setQuestion(tempQuestion);
-    setUserObj(tempUserObj);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (question) {
-      let temp = question.answer;
-      setCorrectAnswer(temp.split("", answerCount));
-    }
+    console.log("question", question)
+    let temp = question.answer;
+    setCorrectAnswer(temp.split("", answerCount));
   }, [answerCount]);
+
+  const [answerQuestion] = useAnswerQuestionMutation();
 
   const submit = async () => {
     // send user's answers and other info to backend
-    console.log(userObj)
+    console.log(user);
     let obj = {
       answer,
-      player_id: userObj._id,
+      player_id: user._id,
       question_id: question.id,
     };
-    console.log("obj", obj)
-    let data = await answerQuestion(obj);
-    console.log(data);
-    dispatch(finishGame());
+    answerQuestion(obj)
+      .unwrap()
+      .then((res) => {
+        if (!res.error) {
+          dispatch(finishGame());
+        } else {
+          alert(res.message);
+        }
+      })
+      .catch((err) => {
+        alert("An error occured. Try again");
+      });
   };
 
   return (
@@ -106,7 +92,7 @@ export default function PlayComponent() {
                   onClick={submit}
                   className="w-28 mx-auto block h-10 bg-white blue-text uppercase font-semibold"
                 >
-                  Submit
+                  {loading ? <Spinner /> : "Submit"}
                 </button>
               )}
             </div>

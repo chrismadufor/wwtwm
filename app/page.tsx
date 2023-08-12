@@ -1,24 +1,29 @@
 "use client";
 
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { resetGame, setRole, setUser } from "@/redux/features/playSlice";
-import { registerPlayer } from "@/lib/playService";
+import { resetGame, setRole, setCategory, setUser } from "@/redux/features/playSlice";
+import { useRegisterPlayerMutation } from "@/redux/services/playService";
+import Spinner from "./play/components/Spinner";
 
 export default function Home() {
   const [fullname, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryData, setCategoryData] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
+  const [registerPlayer] = useRegisterPlayerMutation()
+  const [loading, setLoading] = useState(false)
+  const user = useAppSelector((state: any) => state.playReducer.user);
 
   useEffect(() => {
+    if (user) router.push("/play");
     dispatch(resetGame())
   }, []);
 
@@ -32,22 +37,46 @@ export default function Home() {
     setPhone(event.target.value);
   };
   const onCategoryChange = (event: any) => {
-    setCategory(event.target.value);
+    setCategoryData(event.target.value);
   };
   const onPasswordChange = (event: any) => {
     setPassword(event.target.value);
   };
 
+  const onRegisterPlayer = (data: any) => {
+    setLoading(true)
+    registerPlayer(data)
+    .unwrap()
+    .then(res => {
+      setLoading(false)
+      if (!res.error) {
+        console.log(res)
+        dispatch(setUser(res.player))
+        router.push("/play");
+      } else {
+        console.log("err", res)
+        alert(res.message)
+      }
+    })
+    .catch(err => {
+      setLoading(false)
+      console.error(err)
+      alert("An error occured. Try again")
+    })
+  }
+
   const onAdminSubmit = async () => {
-    if (!category && !password) {
+    if (!categoryData && !password) {
       alert("Fill all fields");
     } else if(password !== "wwtwmadmin5") {
       alert("Password is incorrect");
     }else {
       dispatch(setRole(role));
-      if (role) sessionStorage.setItem('role', role)
-      let data: string = category.toUpperCase().trim()
-      sessionStorage.setItem("category", data);
+      // if (role) sessionStorage.setItem('role', role)
+      dispatch(setRole(role))
+      let data: string = categoryData.toUpperCase().trim()
+      // sessionStorage.setItem("category", data);
+      dispatch(setCategory(data))
       router.push("/play");
     }
   };
@@ -63,6 +92,7 @@ export default function Home() {
       router.push("/play");
     }
   };
+
   const onSubmit = async () => {
     if (!fullname && !email && !phone) {
       alert("Fill all fields");
@@ -71,13 +101,7 @@ export default function Home() {
     } else if (!/^[+0-9]{3,45}$/.test(phone)) {
       alert("Enter valid phone number");
     } else {
-      let data = await registerPlayer({ fullname, email, phone });
-      let temp = JSON.parse(data);
-      if (temp.error) {
-        console.log("There is an error", temp);
-      } else console.log(temp);
-      sessionStorage.setItem("user", JSON.stringify(temp.player));
-      router.push("/play");
+      onRegisterPlayer({ fullname, email, phone })
     }
   };
 
@@ -91,7 +115,7 @@ export default function Home() {
           </div>
           <div className="mt-5">
             <input
-              value={category}
+              value={categoryData}
               onChange={onCategoryChange}
               type="text"
               placeholder="Category"
@@ -174,7 +198,7 @@ export default function Home() {
               onClick={onSubmit}
               className="h-10 md:h-12 w-full bg-blue-800 text-white uppercase font-semibold"
             >
-              Submit
+              {loading ? <Spinner /> : "Submit"}
             </button>
           </div>
         </div>

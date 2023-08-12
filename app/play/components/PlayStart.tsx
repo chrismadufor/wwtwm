@@ -1,24 +1,23 @@
 "use client";
 
-import React from "react";
-import { useAppSelector } from "@/redux/hooks";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Timer from "./Timer";
+import { resetGame } from "@/redux/features/playSlice";
 
 export default function PlayStart() {
+  const dispatch = useAppDispatch();
   // const user = useAppSelector((state: any) => state.playReducer.user);
   const role = useAppSelector((state: any) => state.playReducer.role);
+  const user = useAppSelector((state: any) => state.playReducer.user);
+  console.log("user", user)
   const getFirstName = (name: string) => {
     const temp = name.split(" ");
     return temp[0];
   };
-  let data;
-  if (typeof window !== "undefined") {
-    data = sessionStorage.getItem("user");
-  }
-  let user: any;
-  if (data) {
-    user = JSON.parse(data);
-  }
+  useEffect(() => {
+    dispatch(resetGame())
+  }, []);
   return (
     <div className="h-full flex flex-col py-5">
       {role === "player" ? (

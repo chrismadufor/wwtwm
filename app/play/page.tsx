@@ -9,6 +9,8 @@ import { io, Socket } from "socket.io-client";
 import {
   finishGame,
   gameStart,
+  setQuestionData,
+  setWinners,
   showAnswer,
   showOptions,
   showQuestion,
@@ -20,7 +22,6 @@ import {
 import Results from "./components/Results";
 import GameStats from "./components/GameStats";
 import { useEffect } from "react";
-import { fetchTriviaQuestion } from "@/lib/playService";
 
 export default function QuestionsPage() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
@@ -44,7 +45,7 @@ export default function QuestionsPage() {
 
     socket.on("recieve_trivia_end", (data: any): any => {
       dispatch(gameStart());
-      sessionStorage.setItem("questionObj", JSON.stringify(data));
+      dispatch(setQuestionData(data));
     });
 
     socket.on("receive_trivia_question", (data: string) => {
@@ -69,7 +70,8 @@ export default function QuestionsPage() {
       dispatch(showAnswer(data));
     });
 
-    socket.on("recieve_trivia_stats", (data: string) => {
+    socket.on("recieve_trivia_stats", (data: any) => {
+      dispatch(setWinners(data));
       dispatch(showStats());
     });
 
@@ -82,31 +84,9 @@ export default function QuestionsPage() {
     });
   };
 
-  const getQuestion = async () => {
-    let category;
-    if (typeof window !== "undefined") {
-      category = sessionStorage.getItem("category");
-    }
-    // let temp: any;
-    // if (category) {
-    //   temp = JSON.parse(category);
-    //   // console.log("data", question)
-    // }
-    if (category) {
-      let data = await fetchTriviaQuestion(category);
-      if (data.error) {
-        console.log("There is an error");
-      } else {
-        let question = data.question[0];
-        sessionStorage.setItem("question", JSON.stringify(question));
-      }
-    }
-  };
-
   useEffect(() => {
     if (role === "host") postGameSocketInitializer();
     if (role !== "admin") inGameSocketInitializer();
-    if (role === "admin") getQuestion();
   }, []);
 
   return (

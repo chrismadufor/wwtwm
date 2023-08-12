@@ -1,16 +1,10 @@
 "use client"
 
+import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
 export default function GameStats() {
-  let data: any
-  let stats: any
-  if (typeof window !== "undefined") {
-    data = sessionStorage.getItem("stats");
-  }
-  if (data) {
-    stats = JSON.parse(data);
-  }
+  const stats = useAppSelector((state: any) => state.playReducer.stats);
   return (
     <div className="pt-10">
       <h1 className="text-5xl text-center uppercase font-semibold my-10">

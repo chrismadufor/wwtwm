@@ -25,8 +25,12 @@ type PlaySlice = {
   showStats: boolean;
   showResults: boolean;
   showWinner: boolean;
-  user: User | null;
+  user: any;
   role: string;
+  category: string;
+  stats: any;
+  winners: any;
+  question: any;
 };
 
 const initialState = {
@@ -49,7 +53,11 @@ const initialState = {
   playEnd: false,
   playerEnd: false,
   user: null,
+  stats: null,
+  winners: null,
+  question: null,
   role: "player",
+  category: "",
 } as PlaySlice;
 
 export const play: any = createSlice({
@@ -94,9 +102,6 @@ export const play: any = createSlice({
       state.answer = state.answer += action.payload;
     },
     finishGame: (state) => {
-      // state.showOptions = false
-      // state.showQuestion = false
-      // state.startGame = false
       if (!state.playerEnd) state.playEnd = true;
     },
     showAnswerBtn: (state) => {
@@ -111,7 +116,10 @@ export const play: any = createSlice({
     setRole: (state, action: PayloadAction<string>) => {
       state.role = action.payload;
     },
-    setUser: (state, action: PayloadAction<User>) => {
+    setCategory: (state, action: PayloadAction<string>) => {
+      state.category = action.payload;
+    },
+    setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
     resetGame: (state) => {
@@ -132,9 +140,16 @@ export const play: any = createSlice({
         (state.answerCount = 0),
         (state.answer = ""),
         (state.playEnd = false),
-        (state.playerEnd = false),
-        (state.user = null),
-        (state.role = "player");
+        (state.playerEnd = false)
+        // (state.user = null)
+        // (state.role = "player");
+    },
+    setWinners: (state, action: PayloadAction<any>) => {
+      state.stats = action.payload.stats;
+      state.winners = action.payload.winners;
+    },
+    setQuestionData: (state, action: PayloadAction<any>) => {
+      state.question = action.payload;
     },
   },
 });
@@ -155,6 +170,9 @@ export const {
   goHome,
   setRole,
   setUser,
+  setCategory,
+  setWinners,
+  setQuestionData,
   resetGame,
 } = play.actions;
 
