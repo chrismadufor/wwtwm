@@ -71,10 +71,15 @@ export const play: any = createSlice({
       state.playStart = false;
       state.startGame = true;
       state.beforeGameTimer = false;
+      state.playerEnd = false;
+      state.playEnd = false;
+      state.showQuestion = false;
+      state.showOptions = false;
+      state.answerCount = 0;
+      state.answer = "";
     },
     showQuestion: (state) => {
       state.showQuestion = true;
-      state.playerEnd = false;
     },
     showOptions: (state) => {
       state.showOptions = true;
