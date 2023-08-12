@@ -110,7 +110,7 @@ export default function QuestionsPage() {
         </div>
       </div>
       {role === "admin" && (
-        <div className="h-16 flex items-center bg-blue-800 px-10">
+        <div className="fixed bottom-0 w-full h-16 flex items-center bg-blue-800 px-10">
           <PlayAdminPanel />
         </div>
       )}

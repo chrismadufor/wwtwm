@@ -74,6 +74,7 @@ export const play: any = createSlice({
     },
     showQuestion: (state) => {
       state.showQuestion = true;
+      state.playerEnd = false;
     },
     showOptions: (state) => {
       state.showOptions = true;
@@ -139,10 +140,10 @@ export const play: any = createSlice({
         (state.showWinner = false),
         (state.answerCount = 0),
         (state.answer = ""),
-        (state.playEnd = false),
-        (state.playerEnd = false)
+        (state.playEnd = false)
+        // (state.playerEnd = false)
         // (state.user = null)
-        // (state.role = "player");
+        // (state.role = "player")
     },
     setWinners: (state, action: PayloadAction<any>) => {
       state.stats = action.payload.stats;

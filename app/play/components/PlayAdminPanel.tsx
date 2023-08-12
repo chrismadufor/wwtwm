@@ -240,14 +240,12 @@ export default function PlayAdminPanel() {
           </button>
         )}
         {showStatBtn && !endGame && (
-          // <Link href={"/play/stats"}>
           <button
             onClick={onShowStats}
             className="py-1 px-2 bg-white text-blue-800 font-semibold uppercase"
           >
             Show stats
           </button>
-          // </Link>
         )}
         {showStatsValue && !showResultPageValue && (
           <button

@@ -31,6 +31,7 @@ export default function PlayComponent() {
   const [answerQuestion] = useAnswerQuestionMutation();
 
   const submit = async () => {
+    setLoading(true)
     // send user's answers and other info to backend
     console.log(user);
     let obj = {
@@ -41,6 +42,7 @@ export default function PlayComponent() {
     answerQuestion(obj)
       .unwrap()
       .then((res) => {
+        setLoading(false)
         if (!res.error) {
           dispatch(finishGame());
         } else {
@@ -48,6 +50,7 @@ export default function PlayComponent() {
         }
       })
       .catch((err) => {
+        setLoading(false)
         alert("An error occured. Try again");
       });
   };
