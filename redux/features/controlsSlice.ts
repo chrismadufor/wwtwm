@@ -16,6 +16,7 @@ type ControlsSlice = {
   fiftyFiftyActive: boolean;
   usedAskHost: boolean;
   usedAskFriend: boolean;
+  question: any;
 };
 
 const initialState = {
@@ -34,6 +35,7 @@ const initialState = {
   fiftyFiftyActive: false,
   usedAskHost: false,
   usedAskFriend: false,
+  question: null,
 } as ControlsSlice;
 
 export const controls: any = createSlice({
@@ -41,7 +43,26 @@ export const controls: any = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state = {...initialState};
+      state.user = "host",
+      state.fetchedQuestion = false,
+      state.selectedOption = null,
+      state.correctAnswer = null,
+      state.showAnswer = false,
+      state.showOptions = false,
+      state.progressCount = 0,
+      state.currentQuestion = 1,
+      state.walkaway = false,
+      state.prize = "0",
+      state.guaranteedPrize = "0",
+      state.usedFiftyFifty = false,
+      state.fiftyFiftyActive = false,
+      state.usedAskHost = false,
+      state.usedAskFriend = false,
+      state.question = null
+    },
+    setQuestionData: (state, action: PayloadAction<any>) => {
+      state.question = action.payload
+      state.correctAnswer = action.payload.correct_answer
     },
     setUser: (state, action: PayloadAction<string>) => {
       state.user = action.payload;
@@ -114,6 +135,7 @@ export const controls: any = createSlice({
 export const {
   setUser,
   reset,
+  setQuestionData,
   setFetchedQuestion,
   questionReset,
   lockUserOption,

@@ -10,7 +10,6 @@ export default function Results() {
   );
   const winners = useAppSelector((state: any) => state.playReducer.winners);
   useEffect(() => {
-    console.log("Winners", winners);
     // sort
     // let final = winners
     let tempArr = [...winners]

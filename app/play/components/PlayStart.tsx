@@ -10,7 +10,8 @@ export default function PlayStart() {
   // const user = useAppSelector((state: any) => state.playReducer.user);
   const role = useAppSelector((state: any) => state.playReducer.role);
   const user = useAppSelector((state: any) => state.playReducer.user);
-  console.log("user", user)
+  const userX = useAppSelector((state: any) => state.playReducer);
+  console.log("user", userX)
   const getFirstName = (name: string) => {
     const temp = name.split(" ");
     return temp[0];

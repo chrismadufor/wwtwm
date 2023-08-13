@@ -1,10 +1,12 @@
+import { useAppSelector } from '@/redux/hooks'
 import React from 'react'
 
 type Props = {
   question: string,
 }
 
-export default function Question({question}: Props) {
+export default function Question({question}: Props)
+ {
   return (
     <div className="shape-wrap max-w-7xl mx-auto option-wrap">
       <div className="question bg-white flex items-center">

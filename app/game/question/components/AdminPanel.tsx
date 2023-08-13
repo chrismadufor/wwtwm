@@ -8,6 +8,7 @@ import {
   reset,
   revealAnswer,
   revealOptions,
+  setQuestionData,
   updateGuaranteedPrize,
   updatePrize,
   updateProgress,
@@ -16,13 +17,40 @@ import {
 import prices from "@/data/prices";
 import { useRouter } from "next/navigation";
 import { io, Socket } from "socket.io-client";
+import { useFetchGameQuestionMutation } from "@/redux/services/playService";
 
 export default function AdminPanel() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const disableElement = "opacity-50 pointer-events-none";
+  const [loading, setLoading] = useState(false)
+  const [fetchQuestion] = useFetchGameQuestionMutation()
 
+  const getQuestion = (data: any) => {
+    setLoading(true)
+    fetchQuestion(data)
+    .unwrap()
+    .then(res => {
+      setLoading(false)
+      if (!res.error) {
+        dispatch(setQuestionData(res.question[0]))
+        socket.emit("get_question", res.question[0])
+      } else {
+        alert(res.message)
+      }
+    })
+    .catch(err => {
+      alert("An error occured. Try again")
+    })
+  }
+
+  const category = useAppSelector(
+    (state: any) => state.playReducer.category
+  );
+  const questionCount = useAppSelector(
+    (state: any) => state.controlsReducer.currentQuestion
+  );
   const selectedOption = useAppSelector(
     (state: any) => state.controlsReducer.selectedOption
   );
@@ -52,6 +80,14 @@ export default function AdminPanel() {
   useEffect(() => {
     if (!showAnswer) setShouldProceed(false);
   }, [showAnswer]);
+
+  useEffect(() => {
+    let data = {
+      value: questionCount,
+      category
+    }
+    getQuestion(data)
+  }, [questionCount])
 
   const getGuaranteePrize = (value: string) => {
     // console.log("Value: ", guaranteedPrize, value === "2,000")
@@ -103,7 +139,7 @@ export default function AdminPanel() {
       dispatch(moveToNextQuestion());
       socket.emit("end_game", false);
     } else {
-      router.push("finish");
+      router.push("game/finish");
       socket.emit("end_game", true);
       // instead of this, create a new prop on controlSlice for game ended and use it instead.
     }
@@ -119,10 +155,6 @@ export default function AdminPanel() {
       >
         {showOptions ? "Display Answer" : "Display Options"}
       </button>
-      {/* Admin should not see the correct answer either */}
-      {/* {selectedOption && (
-        <p className="font-semibold text-lg">Correct answer: {answer}</p>
-      )} */}
       <div className="flex gap-3">
         {showOptions && !selectedOption && progress > 0 && (
           <button

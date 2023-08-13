@@ -23,7 +23,8 @@ export default function Home() {
   const user = useAppSelector((state: any) => state.playReducer.user);
 
   useEffect(() => {
-    if (user) router.push("/play");
+    console.log(user)
+    if (user && user.fullname) router.push("/play");
     dispatch(resetGame())
   }, []);
 
@@ -71,11 +72,8 @@ export default function Home() {
     } else if(password !== "wwtwmadmin5") {
       alert("Password is incorrect");
     }else {
-      dispatch(setRole(role));
-      // if (role) sessionStorage.setItem('role', role)
       dispatch(setRole(role))
       let data: string = categoryData.toUpperCase().trim()
-      // sessionStorage.setItem("category", data);
       dispatch(setCategory(data))
       router.push("/play");
     }
@@ -88,7 +86,6 @@ export default function Home() {
       alert("Password is incorrect");
     }else {
       dispatch(setRole(role));
-      if (role) sessionStorage.setItem('role', role)
       router.push("/play");
     }
   };

@@ -21,6 +21,7 @@ import {
   updateProgress,
   updateWalkaway,
   moveToNextQuestion,
+  setQuestionData,
 } from "@/redux/features/controlsSlice";
 import { fetchQuestion } from "@/lib/fetchQuestions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,7 +40,8 @@ export default function OptionsBlock() {
   );
   const disableElement = "opacity-50 pointer-events-none used";
 
-  const prize = useAppSelector((state: any) => state.controlsReducer.prize);
+  const question = useAppSelector((state: any) => state.controlsReducer.question);
+  console.log("Question", question)
   const user = useAppSelector((state: any) => state.controlsReducer.user);
   const showAnswer = useAppSelector(
     (state: any) => state.controlsReducer.showAnswer
@@ -73,7 +75,7 @@ export default function OptionsBlock() {
   //   questions[questionCount]
   // );
 
-  const [data, setData] = useState<QuestionData>();
+  // const [data, setData] = useState<any>();
   const [endGame, setEndGame] = useState(false);
 
   const socketInitializer = async () => {
@@ -82,8 +84,9 @@ export default function OptionsBlock() {
     });
 
     socket.on("receive_question", (data: any) => {
-      setData(data);
-      dispatch(setCorrectAnswer(data.correct_answer));
+      // setData(data);
+      // dispatch(setCorrectAnswer(data.correct_answer));
+      dispatch(setQuestionData(data))
     });
 
     socket.on("receive_option", (data: string) => {
@@ -115,7 +118,7 @@ export default function OptionsBlock() {
 
     socket.on("receive_end_game", (data: any) => {
       if (data === true) {
-        router.push("finish");
+        router.push("game/finish");
       } else dispatch(moveToNextQuestion());
     });
   };
@@ -135,12 +138,14 @@ export default function OptionsBlock() {
   };
 
   const getData = async (value: number) => {
+    // use rtk query here
+
     let data = await fetchQuestion(value);
     if (data.error) {
       console.log("There is an error");
     }
     let temp = data.question[0];
-    setData(temp);
+    // setData(temp);
     dispatch(setCorrectAnswer(temp.correct_answer));
     socket.emit("get_question", data.question[0]);
   };
@@ -150,15 +155,9 @@ export default function OptionsBlock() {
     if (user !== "admin") socketInitializer();
   }, []);
 
-  // useEffect for fetching data
-
-  useEffect(() => {
-    if (user === "admin") getData(questionCount);
-  }, [questionCount]);
-
   return (
     <div>
-      {data && (
+      {/* {question && ( */}
         <div className="options-block">
           {/* <Lifeline /> */}
           <div className="flex justify-center gap-5 mb-5 w-full">
@@ -198,7 +197,7 @@ export default function OptionsBlock() {
             </div>
           </div>
           <div className="relative">
-            <Question question={data.question} />
+            <Question question={question ? question.question : ""} />
             <div className="line questionLine"></div>
           </div>
           <div className="relative mt-5">
@@ -216,33 +215,33 @@ export default function OptionsBlock() {
               <Option
                 idx={0}
                 letter={"A"}
-                value={data.optionA}
-                answer={data.correct_answer}
-                nextBest={data.near_correct_answer}
+                value={question ? question.optionA : ""}
+                answer={question ? question.correct_answer : ""}
+                nextBest={question ? question.near_correct_answer : ""}
                 onSelect={onSelect}
               />
               <Option
                 idx={1}
                 letter={"B"}
-                value={data.optionB}
-                answer={data.correct_answer}
-                nextBest={data.near_correct_answer}
+                value={question ? question.optionB : ""}
+                answer={question ? question.correct_answer : ""}
+                nextBest={question ? question.near_correct_answer : ""}
                 onSelect={onSelect}
               />
               <Option
                 idx={2}
                 letter={"C"}
-                value={data.optionC}
-                answer={data.correct_answer}
-                nextBest={data.near_correct_answer}
+                value={question ? question.optionC : ""}
+                answer={question ? question.correct_answer : ""}
+                nextBest={question ? question.near_correct_answer : ""}
                 onSelect={onSelect}
               />
               <Option
                 idx={3}
                 letter={"D"}
-                value={data.optionD}
-                answer={data.correct_answer}
-                nextBest={data.near_correct_answer}
+                value={question ? question.optionD : ""}
+                answer={question ? question.correct_answer : ""}
+                nextBest={question ? question.near_correct_answer : ""}
                 onSelect={onSelect}
               />
             </div>
@@ -250,7 +249,7 @@ export default function OptionsBlock() {
             <div className="line secondLine"></div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }

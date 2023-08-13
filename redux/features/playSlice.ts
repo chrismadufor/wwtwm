@@ -30,7 +30,7 @@ type PlaySlice = {
   category: string;
   stats: any;
   winners: any;
-  question: any;
+  questionData: any;
 };
 
 const initialState = {
@@ -55,7 +55,7 @@ const initialState = {
   user: null,
   stats: null,
   winners: null,
-  question: null,
+  questionData: null,
   role: "player",
   category: "",
 } as PlaySlice;
@@ -87,6 +87,7 @@ export const play: any = createSlice({
     showStats: (state) => {
       state.showStats = true;
       state.endGame = true;
+      state.questionData = null;
       // state.playEnd = false
     },
     showResults: (state) => {
@@ -155,7 +156,7 @@ export const play: any = createSlice({
       state.winners = action.payload.winners;
     },
     setQuestionData: (state, action: PayloadAction<any>) => {
-      state.question = action.payload;
+      state.questionData = action.payload;
     },
   },
 });

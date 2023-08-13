@@ -18,6 +18,12 @@ export const gameApi = createApi({
         body: data,
       }),
     }),
+    fetchGameQuestion: builder.mutation({
+      query: (data) => ({
+        url: `admin/fetch_questions_params/${data.category}/${data.value}/${data.value}`,
+        method: "GET"
+      }),
+    }),
     fetchTriviaQuestion: builder.mutation({
       query: (data) => ({
         url: `admin/fetch_trivia_questions_params/${data}`,
@@ -49,6 +55,7 @@ export const gameApi = createApi({
 export const {
   useRegisterPlayerMutation,
   useAnswerQuestionMutation,
+  useFetchGameQuestionMutation,
   useFetchTriviaQuestionMutation,
   useFetchWinnersMutation,
   useUpdateQuestionTimeMutation,

@@ -14,7 +14,7 @@ export default function PlayComponent() {
   );
   const role = useAppSelector((state: any) => state.playReducer.role);
   const user = useAppSelector((state: any) => state.playReducer.user);
-  const question = useAppSelector((state: any) => state.playReducer.question);
+  const question = useAppSelector((state: any) => state.playReducer.questionData);
   const answerCount = useAppSelector(
     (state: any) => state.playReducer.answerCount
   );
@@ -23,7 +23,6 @@ export default function PlayComponent() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("question", question)
     let temp = question.answer;
     setCorrectAnswer(temp.split("", answerCount));
   }, [answerCount]);
