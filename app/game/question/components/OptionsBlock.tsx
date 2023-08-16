@@ -41,7 +41,6 @@ export default function OptionsBlock() {
   const disableElement = "opacity-50 pointer-events-none used";
 
   const question = useAppSelector((state: any) => state.controlsReducer.question);
-  console.log("Question", question)
   const user = useAppSelector((state: any) => state.controlsReducer.user);
   const showAnswer = useAppSelector(
     (state: any) => state.controlsReducer.showAnswer
@@ -151,7 +150,6 @@ export default function OptionsBlock() {
   };
 
   useEffect(() => {
-    console.log(user);
     if (user !== "admin") socketInitializer();
   }, []);
 
@@ -201,7 +199,7 @@ export default function OptionsBlock() {
             <div className="line questionLine"></div>
           </div>
           <div className="relative mt-5">
-            <div className="shape-wrap max-w-7xl mx-auto grid grid-cols-2 gap-5 w-full">
+            <div className="shape-wrap mx-auto grid grid-cols-2 gap-5 xl:gap-x-12 w-full">
               {/* {currentQuestion.options.map((option, index) => (
             <Option
               key={index}

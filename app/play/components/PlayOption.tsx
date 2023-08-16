@@ -24,47 +24,15 @@ export default function PlayOption({ idx, letter, value }: Props) {
     setOptionSelected(true);
   };
 
-  // const selectedOption = useAppSelector((state: any) => state.controlsReducer.selectedOption)
-  // const showOptions = useAppSelector((state: any) => state.controlsReducer.showOptions)
-  // const user = useAppSelector((state: any) => state.controlsReducer.user)
-  // const showAnswer = useAppSelector((state: any) => state.controlsReducer.showAnswer)
-  // const fiftyFiftyActive = useAppSelector((state: any) => state.controlsReducer.fiftyFiftyActive)
-
-  // const [isClicked, setIsClicked] = useState(selectedOption === letter)
-  // const [isAnswer, setIsAnswer] = useState(false)
-  // const [isWrong, setIsWrong] = useState(false)
-
-  // useEffect(() => {
-  //   if (selectedOption === letter) setIsClicked(true)
-  //   else setIsClicked(false)
-  //   if (showAnswer) {
-  //     if (isClicked && letter !== answer) setIsWrong(true)
-  //     if (answer === letter) setIsAnswer(true)
-  //   }
-  //   else setIsAnswer(false)
-  // }, [selectedOption, letter, showAnswer, answer, isClicked])
-
-  // const selectOption = () => {
-  //   // if(!showAnswer) dispatch(lockUserOption(letter))
-  //   onSelect(letter)
-  // }
-
-  // const getValue = (value: string) => {
-  //   let temp = ""
-  //   if(fiftyFiftyActive) {
-  //     if(letter === answer || letter === nextBest) return value
-  //     else return ""
-  //   }else return value
-  // }
-
   return (
     <div onClick={() => {}} className={`option-wrap cursor-pointer}`}>
       <div className={`option bg-white flex items-center`}>
         <div
-          onClick={() => onSelectOption(letter)}
+          onClick={role === "player" ? () => onSelectOption(letter) : () => {}}
           className={`${
-            role !== "player" || (role === "player" && !showOptions) && "pointer-events-none"
-          } text-base md:xl lg:text-3xl option-inner w-full h-full flex items-center ${
+            role !== "player" ||
+            (role === "player" && !showOptions && "pointer-events-none")
+          } option-inner w-full h-full flex items-center ${
             optionSelected && "pointer-events-none"
           }`}
         >

@@ -31,7 +31,7 @@ export default function PlayAdminPanel() {
   const dispatch = useAppDispatch();
   const [showStatBtn, setShowStatBtn] = useState(false);
   const [count, setCount] = useState(0);
-  const [finalResult, setFinalResult] = useState<any>()
+  const [finalResult, setFinalResult] = useState<any>();
   const [question, setQuestion] = useState<any>();
   const [questionLoading, setQuestionLoading] = useState(false);
   const [resultsLoading, setResultsLoading] = useState(false);
@@ -98,7 +98,7 @@ export default function PlayAdminPanel() {
             total_winners: res.total_users_who_answered_correctly,
           };
           let winners = res.answers;
-          setFinalResult({ stats, winners })
+          setFinalResult({ stats, winners });
           dispatch(setWinners({ stats, winners }));
           setShowStatBtn(true);
         } else {
@@ -120,40 +120,43 @@ export default function PlayAdminPanel() {
     socket.emit("start_timer", "timer");
   };
   const onGameStart = () => {
-    let questionObj = {
-      question: question.question,
-      optionA: question.optionA,
-      optionB: question.optionB,
-      optionC: question.optionC,
-      optionD: question.optionD,
-      id: question._id,
-      answer: question.correct_answer,
-    };
-    dispatch(setQuestionData(questionObj));
-    dispatch(gameStart());
-    socket.emit("start_trivia_game", questionObj);
+    if (!question) fetchQuestion(category);
+    else {
+      let questionObj = {
+        question: question.question,
+        optionA: question.optionA,
+        optionB: question.optionB,
+        optionC: question.optionC,
+        optionD: question.optionD,
+        id: question._id,
+        answer: question.correct_answer,
+      };
+      dispatch(setQuestionData(questionObj));
+      dispatch(gameStart());
+      socket.emit("start_trivia_game", questionObj);
+    }
   };
   const onShowQuestion = () => {
     dispatch(showQuestion());
     socket.emit("send_trivia_question", "question");
   };
   const onShowOptions = () => {
-    setOptionsLoading(true)
+    setOptionsLoading(true);
     updateTime(question._id)
       .unwrap()
       .then((res) => {
-        setOptionsLoading(false)
+        setOptionsLoading(false);
         if (!res.error) {
           dispatch(showOptions());
           socket.emit("send_trivia_options", "options");
-        }else {
-          alert(res.message)
+        } else {
+          alert(res.message);
         }
       })
-      .catch(err => {
-        setOptionsLoading(false)
-        alert("An error occured. Try again")
-      })
+      .catch((err) => {
+        setOptionsLoading(false);
+        alert("An error occured. Try again");
+      });
   };
   const onShowStats = () => {
     dispatch(showStats());

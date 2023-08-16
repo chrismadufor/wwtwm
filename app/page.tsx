@@ -23,7 +23,6 @@ export default function Home() {
   const user = useAppSelector((state: any) => state.playReducer.user);
 
   useEffect(() => {
-    console.log(user)
     if (user && user.fullname) router.push("/play");
     dispatch(resetGame())
   }, []);

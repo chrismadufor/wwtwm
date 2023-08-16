@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'End Game',
+  title: 'WWTWM Game',
   description: 'Sponsored by Shelta!',
 }
 

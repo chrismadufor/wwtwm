@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Timer from "./Timer";
 import { resetGame } from "@/redux/features/playSlice";
+import PlayAdBlock from "./PlayAdBlock";
 
 export default function PlayStart() {
   const dispatch = useAppDispatch();
@@ -11,23 +12,28 @@ export default function PlayStart() {
   const role = useAppSelector((state: any) => state.playReducer.role);
   const user = useAppSelector((state: any) => state.playReducer.user);
   const userX = useAppSelector((state: any) => state.playReducer);
-  console.log("user", userX)
+  console.log("user", userX);
   const getFirstName = (name: string) => {
     const temp = name.split(" ");
     return temp[0];
   };
   useEffect(() => {
-    dispatch(resetGame())
+    dispatch(resetGame());
   }, []);
   return (
     <div className="h-full flex flex-col py-5">
       {role === "player" ? (
         <div className="h-full flex flex-col">
+          <div className="fixed top-0 left-0 w-full">
+            <PlayAdBlock />
+          </div>
           <div className="text-center flex flex-col items-center justify-center h-full">
             <h1 className="text-2xl md:text-3xl mb-10 font-semibold">
-              Hi {user ? getFirstName(user.fullname) : ''} 😃
+              Hi {user ? getFirstName(user.fullname) : ""} 😃
             </h1>
-            <h1 className="text-xl md:text-3xl font-semibold">Patience is a virtue!!</h1>
+            <h1 className="text-xl md:text-3xl font-semibold">
+              Patience is a virtue!!
+            </h1>
             <p className="mt-2">The game is about to start.</p>
           </div>
           <p className="italic text-center font-semibold">

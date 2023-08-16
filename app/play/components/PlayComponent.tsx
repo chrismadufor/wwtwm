@@ -58,15 +58,15 @@ export default function PlayComponent() {
     <div className="h-full py-10">
       {question && (
         <div>
-          <h1 className="text-center font-semibold text-2xl md:text-4xl mb-5">
-            Fastest Fingers First!!
+          <h1 className="text-center font-semibold text-2xl md:text-4xl xl:text-5xl mb-5">
+            Fastest Fingers!!
           </h1>
           <div className="relative">
             <Question question={question.question} />
             <div className="line questionLine"></div>
           </div>
           <div className="relative mt-5">
-            <div className="shape-wrap max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 w-full">
+            <div className="shape-wrap mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 xl:gap-x-12 w-full">
               {/* {currentQuestion.options.map((option, index) => ( */}
               <PlayOption idx={0} letter={"A"} value={question.optionA} />
               <PlayOption idx={1} letter={"B"} value={question.optionB} />
@@ -75,9 +75,11 @@ export default function PlayComponent() {
             </div>
             <div className="line firstLine"></div>
             <div className="line secondLine"></div>
+            <div className="line secondLine"></div>
+            <div className="line secondLine"></div>
           </div>
 
-          {userAnswer[0] !== "" && (
+          {userAnswer[0] !== "" && role === "player" && (
             <div>
               <div className="flex gap-4 justify-center py-10">
                 {userAnswer.map((letter: string, index: number) => (

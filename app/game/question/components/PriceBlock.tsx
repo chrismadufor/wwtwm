@@ -27,9 +27,10 @@ export default function PriceBlock() {
       <div className="relative h-20 w-full bg-gray-50 py-5">
         <Image
           priority={true}
-          src={"shelta.svg"}
+          src={"/assets/shelta.jpeg"}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt="chart"
         />
       </div>

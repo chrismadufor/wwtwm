@@ -18,6 +18,7 @@ import prices from "@/data/prices";
 import { useRouter } from "next/navigation";
 import { io, Socket } from "socket.io-client";
 import { useFetchGameQuestionMutation } from "@/redux/services/playService";
+import Spinner from "./Spinner";
 
 export default function AdminPanel() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
@@ -82,6 +83,10 @@ export default function AdminPanel() {
   }, [showAnswer]);
 
   useEffect(() => {
+    if (!category) {
+      alert("No category selected, Set a category to continue")
+      return router.push("/?role=admin")
+    }
     let data = {
       value: questionCount,
       category
@@ -90,7 +95,6 @@ export default function AdminPanel() {
   }, [questionCount])
 
   const getGuaranteePrize = (value: string) => {
-    // console.log("Value: ", guaranteedPrize, value === "2,000")
     if (value === "1,000") setGuaranteePrice("2,000");
     else if (value === "15,000") setGuaranteePrice("15,000");
     else if (value === "50,000") setGuaranteePrice("50,000");
@@ -147,14 +151,15 @@ export default function AdminPanel() {
 
   return (
     <div className="h-20 w-full px-10 flex justify-between items-center gap-3">
-      <button
+      
+      {loading ? <button className="px-5 py-2 text-sm pointer-events-none green-bg"><Spinner /></button> : <button
         onClick={onCheckAnswer}
         className={`px-5 py-2 text-sm cursor-pointer green-bg uppercase font-semibold ${
           (showOptions && selectedOption === null) || showAnswer ? disableElement : ""
         }`}
       >
         {showOptions ? "Display Answer" : "Display Options"}
-      </button>
+      </button>}
       <div className="flex gap-3">
         {showOptions && !selectedOption && progress > 0 && (
           <button
