@@ -226,7 +226,7 @@ export default function PlayAdminPanel() {
             {optionsLoading ? <Spinner /> : "Display options"}
           </button>
         )}
-        {showOptionsValue && !showAnswerValue && (
+        {showOptionsValue && !showAnswerValue && !playEnd && (
           <button
             onClick={onEndGame}
             className="py-1 px-2 bg-white text-blue-800 font-semibold uppercase"

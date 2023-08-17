@@ -114,7 +114,7 @@ export default function Home() {
               value={categoryData}
               onChange={onCategoryChange}
               type="text"
-              placeholder="Category"
+              placeholder="Round"
               className="w-full h-10 md:h-12 mb-3 border text-gray-700 pl-3"
               required
             />

@@ -25,6 +25,7 @@ export default function AdminPanel() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const disableElement = "opacity-50 pointer-events-none";
+  const [questionObj, setQuestionObj] = useState<any>()
   const [loading, setLoading] = useState(false)
   const [fetchQuestion] = useFetchGameQuestionMutation()
 
@@ -35,8 +36,9 @@ export default function AdminPanel() {
     .then(res => {
       setLoading(false)
       if (!res.error) {
+        setQuestionObj(res.question[0])
         dispatch(setQuestionData(res.question[0]))
-        socket.emit("get_question", res.question[0])
+        socket.emit("get_question", {category, question:res.question[0]})
       } else {
         alert(res.message)
       }
@@ -108,10 +110,10 @@ export default function AdminPanel() {
   const onCheckAnswer = () => {
     if (!showOptions) {
       dispatch(revealOptions());
-      socket.emit("show_answer", "option");
+      socket.emit("show_answer", {socketData: "option", questionObj});
     } else {
       dispatch(revealAnswer());
-      socket.emit("show_answer", "answer");
+      socket.emit("show_answer", {socketData: "answer", questionObj});
       if (!walkaway) {
         if (answer === selectedOption) {
           if (progress <= 8) setShouldProceed(true);

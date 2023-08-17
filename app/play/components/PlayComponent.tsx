@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { finishGame } from "@/redux/features/playSlice";
 import { useAnswerQuestionMutation } from "@/redux/services/playService";
 import Spinner from "./Spinner";
+import GameTimer from "./GameTimer";
 
 export default function PlayComponent() {
   const dispatch = useAppDispatch();
+  const showOptions = useAppSelector((state: any) => state.playReducer.showOptions);
   const answer = useAppSelector((state: any) => state.playReducer.answer);
   const showAnswer = useAppSelector(
     (state: any) => state.playReducer.showAnswer
@@ -55,11 +57,12 @@ export default function PlayComponent() {
   };
 
   return (
-    <div className="h-full py-10">
+    <div className="h-full py-10 relative">
       {question && (
         <div>
+          {role === "player" && showOptions && <div className="fixed top-0 right-0"><GameTimer /></div>}
           <h1 className="text-center font-semibold text-2xl md:text-4xl xl:text-5xl mb-5">
-            Fastest Fingers!!
+            Fastest Fingers First!!
           </h1>
           <div className="relative">
             <Question question={question.question} />

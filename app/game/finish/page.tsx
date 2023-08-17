@@ -12,7 +12,6 @@ export default function Home() {
   const dispatch = useAppDispatch();
   let prize = useAppSelector((state: any) => state.controlsReducer.prize);
   let final = useAppSelector((state: any) => state.controlsReducer);
-  console.log("Final", final)
   const resetGame = () => {
     router.push('')
   }

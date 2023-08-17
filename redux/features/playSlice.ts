@@ -83,6 +83,7 @@ export const play: any = createSlice({
     },
     showOptions: (state) => {
       state.showOptions = true;
+      state.duringGameTimer = true;
     },
     showStats: (state) => {
       state.showStats = true;

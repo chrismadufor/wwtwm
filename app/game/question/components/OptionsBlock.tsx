@@ -28,6 +28,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserTie, faHandshake } from "@fortawesome/free-solid-svg-icons";
 import prices from "@/data/prices";
 import { useRouter } from "next/navigation";
+import { setCategory } from "@/redux/features/playSlice";
 
 export default function OptionsBlock() {
   const socket: Socket<any, any> = io("https://wwtwmserver.onrender.com");
@@ -40,6 +41,8 @@ export default function OptionsBlock() {
   );
   const disableElement = "opacity-50 pointer-events-none used";
 
+  const category = useAppSelector((state: any) => state.playReducer.category);
+  const role = useAppSelector((state: any) => state.controlsReducer.role);
   const question = useAppSelector((state: any) => state.controlsReducer.question);
   const user = useAppSelector((state: any) => state.controlsReducer.user);
   const showAnswer = useAppSelector(
@@ -69,12 +72,6 @@ export default function OptionsBlock() {
   const walkaway = useAppSelector(
     (state: any) => state.controlsReducer.walkaway
   );
-
-  // const [currentQuestion, setCurrentQuestion] = useState(
-  //   questions[questionCount]
-  // );
-
-  // const [data, setData] = useState<any>();
   const [endGame, setEndGame] = useState(false);
 
   const socketInitializer = async () => {
@@ -83,9 +80,8 @@ export default function OptionsBlock() {
     });
 
     socket.on("receive_question", (data: any) => {
-      // setData(data);
-      // dispatch(setCorrectAnswer(data.correct_answer));
-      dispatch(setQuestionData(data))
+      if (!category) dispatch(setCategory(data.category))
+      dispatch(setQuestionData(data.question))
     });
 
     socket.on("receive_option", (data: string) => {
@@ -102,9 +98,15 @@ export default function OptionsBlock() {
       dispatch(updateWalkaway());
     });
 
-    socket.on("receive_answer", (data: string) => {
-      if (data === "answer") dispatch(revealAnswer());
-      else dispatch(revealOptions());
+    socket.on("receive_answer", (data: any) => {
+      if (data.socketData === "answer") {
+        if (!question) dispatch(setQuestionData(data.questionObj))
+        dispatch(revealAnswer());
+      }
+      else {
+        if (!question) dispatch(setQuestionData(data.questionObj))
+        dispatch(revealOptions());
+      }
     });
 
     socket.on("receive_level", (data: any) => {
@@ -245,6 +247,7 @@ export default function OptionsBlock() {
             </div>
             <div className="line firstLine"></div>
             <div className="line secondLine"></div>
+            {role !== "player" && <div className="current-round font-bold">{category}</div>}
           </div>
         </div>
       {/* )} */}
