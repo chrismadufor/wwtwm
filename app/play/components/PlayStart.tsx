@@ -21,10 +21,10 @@ export default function PlayStart() {
     dispatch(resetGame());
   }, []);
   return (
-    <div className="h-full flex flex-col py-5">
+    <div className="h-full flex flex-col pb-5">
       {role === "player" ? (
         <div className="h-full flex flex-col">
-          <div className="fixed top-0 left-0 w-full">
+          <div className="w-full">
             <PlayAdBlock />
           </div>
           <div className="text-center flex flex-col items-center justify-center h-full">

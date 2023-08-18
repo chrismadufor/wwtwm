@@ -60,7 +60,7 @@ export default function PlayComponent() {
     <div className="h-full py-10 relative">
       {question && (
         <div>
-          {role === "player" && showOptions && <div className="fixed top-0 right-0"><GameTimer /></div>}
+          {showOptions && <div className="fixed top-0 right-0"><GameTimer /></div>}
           <h1 className="text-center font-semibold text-2xl md:text-4xl xl:text-5xl mb-5">
             Fastest Fingers First!!
           </h1>

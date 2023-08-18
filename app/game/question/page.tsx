@@ -31,7 +31,8 @@ export default function QuestionsPage() {
         <div className="h-10">
           {selectedOption && (
             <div className="py-3 px-5 blue-bg">
-              <p className="font-semibold text-lg">Correct answer: {answer}</p>
+              {/* <p className="font-semibold text-lg">Correct answer: {answer}</p> */}
+              <p className="text-lg font-semibold">Preview</p>
               <p className="text-lg">{question.preview || "No preview"}</p>
             </div>
           )}

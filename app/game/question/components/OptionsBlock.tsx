@@ -25,7 +25,11 @@ import {
 } from "@/redux/features/controlsSlice";
 import { fetchQuestion } from "@/lib/fetchQuestions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserTie, faHandshake } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserTie,
+  faHandshake,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import prices from "@/data/prices";
 import { useRouter } from "next/navigation";
 import { setCategory } from "@/redux/features/playSlice";
@@ -42,9 +46,13 @@ export default function OptionsBlock() {
   const disableElement = "opacity-50 pointer-events-none used";
 
   const category = useAppSelector((state: any) => state.playReducer.category);
-  const role = useAppSelector((state: any) => state.controlsReducer.role);
-  const question = useAppSelector((state: any) => state.controlsReducer.question);
+  const question = useAppSelector(
+    (state: any) => state.controlsReducer.question
+  );
   const user = useAppSelector((state: any) => state.controlsReducer.user);
+  const correctAnswer = useAppSelector(
+    (state: any) => state.controlsReducer.correctAnswer
+  );
   const showAnswer = useAppSelector(
     (state: any) => state.controlsReducer.showAnswer
   );
@@ -80,8 +88,8 @@ export default function OptionsBlock() {
     });
 
     socket.on("receive_question", (data: any) => {
-      if (!category) dispatch(setCategory(data.category))
-      dispatch(setQuestionData(data.question))
+      dispatch(setCategory(data.category));
+      dispatch(setQuestionData(data.question));
     });
 
     socket.on("receive_option", (data: string) => {
@@ -100,11 +108,10 @@ export default function OptionsBlock() {
 
     socket.on("receive_answer", (data: any) => {
       if (data.socketData === "answer") {
-        if (!question) dispatch(setQuestionData(data.questionObj))
+        if (!question) dispatch(setQuestionData(data.questionObj));
         dispatch(revealAnswer());
-      }
-      else {
-        if (!question) dispatch(setQuestionData(data.questionObj))
+      } else {
+        if (!question) dispatch(setQuestionData(data.questionObj));
         dispatch(revealOptions());
       }
     });
@@ -158,9 +165,10 @@ export default function OptionsBlock() {
   return (
     <div>
       {/* {question && ( */}
-        <div className="options-block">
-          {/* <Lifeline /> */}
-          <div className="flex justify-center gap-5 mb-5 w-full">
+      <div className="options-block">
+        {/* <Lifeline /> */}
+        <div className="flex justify-center gap-10 mb-5 w-full">
+          <div>
             <div
               onClick={() => onClickLifeLine("fiftyFifty")}
               className={`life-line ${
@@ -172,6 +180,9 @@ export default function OptionsBlock() {
             >
               <span className="text-3xl font-semibold">50:50</span>
             </div>
+            <p className="text-2xl text-center">50:50</p>
+          </div>
+          <div>
             <div
               onClick={() => onClickLifeLine("askHost")}
               className={`life-line ${
@@ -184,6 +195,9 @@ export default function OptionsBlock() {
             >
               <FontAwesomeIcon icon={faUserTie} size="4x" />
             </div>
+            <p className="text-2xl text-center">Ask Host</p>
+          </div>
+          <div>
             <div
               onClick={() => onClickLifeLine("askFriend")}
               className={`life-line ${
@@ -193,16 +207,18 @@ export default function OptionsBlock() {
                 usedAskFriend && disableElement
               }`}
             >
-              <FontAwesomeIcon icon={faHandshake} size="3x" />
+              <FontAwesomeIcon icon={faPhone} size="3x" />
             </div>
+            <p className="text-2xl text-center">Ask Friend</p>
           </div>
-          <div className="relative">
-            <Question question={question ? question.question : ""} />
-            <div className="line questionLine"></div>
-          </div>
-          <div className="relative mt-5">
-            <div className="shape-wrap mx-auto grid grid-cols-2 gap-5 xl:gap-x-12 w-full">
-              {/* {currentQuestion.options.map((option, index) => (
+        </div>
+        <div className="relative">
+          <Question question={question ? question.question : ""} />
+          <div className="line questionLine"></div>
+        </div>
+        <div className="relative mt-5">
+          <div className="shape-wrap mx-auto grid grid-cols-2 gap-5 xl:gap-x-12 w-full">
+            {/* {currentQuestion.options.map((option, index) => (
             <Option
               key={index}
               idx={index}
@@ -212,44 +228,46 @@ export default function OptionsBlock() {
               nextBest={currentQuestion.nextBest}
             />
           ))} */}
-              <Option
-                idx={0}
-                letter={"A"}
-                value={question ? question.optionA : ""}
-                answer={question ? question.correct_answer : ""}
-                nextBest={question ? question.near_correct_answer : ""}
-                onSelect={onSelect}
-              />
-              <Option
-                idx={1}
-                letter={"B"}
-                value={question ? question.optionB : ""}
-                answer={question ? question.correct_answer : ""}
-                nextBest={question ? question.near_correct_answer : ""}
-                onSelect={onSelect}
-              />
-              <Option
-                idx={2}
-                letter={"C"}
-                value={question ? question.optionC : ""}
-                answer={question ? question.correct_answer : ""}
-                nextBest={question ? question.near_correct_answer : ""}
-                onSelect={onSelect}
-              />
-              <Option
-                idx={3}
-                letter={"D"}
-                value={question ? question.optionD : ""}
-                answer={question ? question.correct_answer : ""}
-                nextBest={question ? question.near_correct_answer : ""}
-                onSelect={onSelect}
-              />
-            </div>
-            <div className="line firstLine"></div>
-            <div className="line secondLine"></div>
-            {role !== "player" && <div className="current-round font-bold">{category}</div>}
+            <Option
+              idx={0}
+              letter={"A"}
+              value={question ? question.optionA : ""}
+              answer={question ? question.correct_answer : ""}
+              nextBest={question ? question.near_correct_answer : ""}
+              onSelect={onSelect}
+            />
+            <Option
+              idx={1}
+              letter={"B"}
+              value={question ? question.optionB : ""}
+              answer={question ? question.correct_answer : ""}
+              nextBest={question ? question.near_correct_answer : ""}
+              onSelect={onSelect}
+            />
+            <Option
+              idx={2}
+              letter={"C"}
+              value={question ? question.optionC : ""}
+              answer={question ? question.correct_answer : ""}
+              nextBest={question ? question.near_correct_answer : ""}
+              onSelect={onSelect}
+            />
+            <Option
+              idx={3}
+              letter={"D"}
+              value={question ? question.optionD : ""}
+              answer={question ? question.correct_answer : ""}
+              nextBest={question ? question.near_correct_answer : ""}
+              onSelect={onSelect}
+            />
           </div>
+          <div className="line firstLine"></div>
+          <div className="line secondLine"></div>
+          {user === "host" && selectedOption && (
+            <div className="current-round font-bold">{correctAnswer}</div>
+          )}
         </div>
+      </div>
       {/* )} */}
     </div>
   );
