@@ -20,7 +20,7 @@ export default function Home() {
   }, [dispatch])
   return (
     <main className="min-h-screen blue-bg flex flex-col items-center justify-center">
-      <p className="text-5xl">You just won <span className="orange font-semibold">₦{prize}</span></p>
+      <p className="text-6xl">Player just won <span className="orange font-semibold">₦{prize}</span></p>
       <button
         onClick={resetGame}
         className="orange-bg py-3 px-8 mt-8"

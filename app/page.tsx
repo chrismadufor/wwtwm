@@ -101,11 +101,8 @@ export default function Home() {
       alert("Enter a valid email");
     } else if (!/^[+0-9]{3,45}$/.test(phone)) {
       alert("Enter valid phone number");
-    } else if (email === "chrismadu@email.com") {
-      onRegisterPlayer({ fullname, email, phone });
     } else {
-      alert("Hold on! With love from Shelta 💓");
-      //   onRegisterPlayer({ fullname, email, phone })
+        onRegisterPlayer({ fullname, email, phone })
     }
   };
 
