@@ -3,7 +3,7 @@ import controlsReducer from "./features/controlsSlice";
 import playReducer from "./features/playSlice";
 import { gameApi } from "./services/playService";
 import storage from "reduxjs-toolkit-persist/lib/storage";
-import sessionStorage from 'reduxjs-toolkit-persist/lib/storage/session'
+// import sessionStorage from 'reduxjs-toolkit-persist/lib/storage/session'
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import {
   persistStore,
@@ -18,8 +18,8 @@ import {
 
 const persistConfig: any = {
   key: "root",
-  // storage,
-  storage: sessionStorage,
+  storage,
+  // storage: sessionStorage,
   stateReconciler: autoMergeLevel2,
 };
 

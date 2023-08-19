@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/redux/hooks";
 
 function Timer() {
-  let [count, setCount] = useState(59);
+  let [count, setCount] = useState(30);
   const [active, setActive] = useState(false);
   const [showTimer, setShowTimer] = useState(true);
   const beforeGameTimer = useAppSelector((state: any) => state.playReducer.beforeGameTimer);
@@ -13,7 +13,7 @@ function Timer() {
   };
   const onReset = () => {
     setActive(false);
-    setCount(59);
+    setCount(30);
   };
   const onHide = () => setShowTimer(false);
   useEffect(() => {

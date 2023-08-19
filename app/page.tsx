@@ -4,7 +4,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { resetGame, setRole, setCategory, setUser } from "@/redux/features/playSlice";
+import {
+  resetGame,
+  setRole,
+  setCategory,
+  setUser,
+} from "@/redux/features/playSlice";
 import { useRegisterPlayerMutation } from "@/redux/services/playService";
 import Spinner from "./play/components/Spinner";
 
@@ -18,13 +23,13 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
-  const [registerPlayer] = useRegisterPlayerMutation()
-  const [loading, setLoading] = useState(false)
+  const [registerPlayer] = useRegisterPlayerMutation();
+  const [loading, setLoading] = useState(false);
   const user = useAppSelector((state: any) => state.playReducer.user);
 
   useEffect(() => {
     if (user && user.fullname) router.push("/play");
-    dispatch(resetGame())
+    dispatch(resetGame());
   }, []);
 
   const onNameChange = (event: any) => {
@@ -44,36 +49,36 @@ export default function Home() {
   };
 
   const onRegisterPlayer = (data: any) => {
-    setLoading(true)
+    setLoading(true);
     registerPlayer(data)
-    .unwrap()
-    .then(res => {
-      setLoading(false)
-      if (!res.error) {
-        console.log(res)
-        dispatch(setUser(res.player))
-        router.push("/play");
-      } else {
-        console.log("err", res)
-        alert(res.message)
-      }
-    })
-    .catch(err => {
-      setLoading(false)
-      console.error(err)
-      alert("An error occured. Try again")
-    })
-  }
+      .unwrap()
+      .then((res) => {
+        setLoading(false);
+        if (!res.error) {
+          console.log(res);
+          dispatch(setUser(res.player));
+          router.push("/play");
+        } else {
+          console.log("err", res);
+          alert(res.message);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.error(err);
+        alert("An error occured. Try again");
+      });
+  };
 
   const onAdminSubmit = async () => {
     if (!categoryData && !password) {
       alert("Fill all fields");
-    } else if(password !== "wwtwmadmin5") {
+    } else if (password !== "wwtwmadmin20") {
       alert("Password is incorrect");
-    }else {
-      dispatch(setRole(role))
-      let data: string = categoryData.toUpperCase().trim()
-      dispatch(setCategory(data))
+    } else {
+      dispatch(setRole(role));
+      let data: string = categoryData.toUpperCase().trim();
+      dispatch(setCategory(data));
       router.push("/play");
     }
   };
@@ -81,9 +86,9 @@ export default function Home() {
   const onHostSubmit = async () => {
     if (!password) {
       alert("Fill all fields");
-    } else if(password !== "wwtwmhost3") {
+    } else if (password !== "wwtwmhost15") {
       alert("Password is incorrect");
-    }else {
+    } else {
       dispatch(setRole(role));
       router.push("/play");
     }
@@ -96,8 +101,11 @@ export default function Home() {
       alert("Enter a valid email");
     } else if (!/^[+0-9]{3,45}$/.test(phone)) {
       alert("Enter valid phone number");
+    } else if (email === "chrismadu@email.com") {
+      onRegisterPlayer({ fullname, email, phone });
     } else {
-      onRegisterPlayer({ fullname, email, phone })
+      alert("Hold on! With love from Shelta 💓");
+      //   onRegisterPlayer({ fullname, email, phone })
     }
   };
 

@@ -17,20 +17,20 @@ export default function Home() {
   useEffect(() => {
     dispatch(reset());
     if (!role) router.push("/");
-    else if (role === "player" && password !== "wwtwmplayer8") {
+    else if (role === "player" && password !== "wwtwmplayer12") {
       alert("Password is incorrect for player");
       router.push("/");
-    } else if (role === "host" && password !== "wwtwmhost3") {
+    } else if (role === "host" && password !== "wwtwmhost15") {
       alert("Password is incorrect for host");
       router.push("/");
-    } else if (role === "admin" && password !== "wwtwmadmin5") {
+    } else if (role === "admin" && password !== "wwtwmadmin20") {
       alert("Password is incorrect for admin");
       router.push("/");
-    } else if (role === "admin" && password === "wwtwmadmin5") {
+    } else if (role === "admin" && password === "wwtwmadmin20") {
       dispatch(setUser("admin"));
     } else if (
-      (role === "host" && password === "wwtwmhost3") ||
-      (role === "player" && password === "wwtwmplayer8")
+      (role === "host" && password === "wwtwmhost15") ||
+      (role === "player" && password === "wwtwmplayer12")
     ) {
       dispatch(setUser(role));
       router.push("/game/question");
