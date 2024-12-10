@@ -14,7 +14,7 @@ export default function PlayEnd() {
             <p className='mt-2'>The results will be displayed shortly.</p>
             <button onClick={onGoHome} className="bg-white mt-5 px-5 py-3 uppercase font-semibold blue-text">Back home</button>
         </div>
-        <p className='italic text-center font-semibold'>Sponsored by Shelta</p>
+        <p className='italic text-center font-semibold'>Sponsored by C.O.C Lugbe</p>
     </div>
   )
 }

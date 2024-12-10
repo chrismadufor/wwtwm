@@ -25,7 +25,7 @@ export default function PlayStart() {
       {role === "player" ? (
         <div className="h-full flex flex-col">
           <div className="w-full">
-            <PlayAdBlock />
+            {/* <PlayAdBlock /> */}
           </div>
           <div className="text-center flex flex-col items-center justify-center h-full">
             <h1 className="text-2xl md:text-3xl mb-10 font-semibold">
@@ -37,7 +37,7 @@ export default function PlayStart() {
             <p className="mt-2">The game is about to start.</p>
           </div>
           <p className="italic text-center font-semibold">
-            Sponsored by Shelta
+            Sponsored by C.O.C Lugbe
           </p>
         </div>
       ) : (
