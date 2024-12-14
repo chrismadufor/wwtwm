@@ -24,14 +24,8 @@ export default function PriceBlock() {
 
   return (
     <div className="h-full flex flex-col border-l w-64">
-      <div className="relative h-20 w-full bg-gray-50 py-5">
-        <Image
-          priority={true}
-          src={"shelta.svg"}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          alt="chart"
-        />
+      <div className="relative w-full bg-gray-50 py-6">
+        <p className="text-3xl text-center font-semibold">COC LUGBE</p>
       </div>
       <div className="h-full grid grid-cols-1">
         {prices.map((price, index) => (
