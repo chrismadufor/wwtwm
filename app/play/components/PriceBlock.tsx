@@ -25,7 +25,7 @@ export default function PriceBlock() {
   return (
     <div className="h-full flex flex-col border-l w-64">
       <div className="relative w-full bg-gray-50 py-6">
-        <p className="text-3xl text-center font-semibold">COC LUGBE</p>
+      <p className="text-3xl text-center text-blue-800 font-bold">C.O.C LUGBE</p>
       </div>
       <div className="h-full grid grid-cols-1">
         {prices.map((price, index) => (
